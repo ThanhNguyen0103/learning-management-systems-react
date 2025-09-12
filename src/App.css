@@ -36,6 +36,13 @@
   }
 }
 
+.ant-menu.ant-menu-dark .ant-menu .ant-menu-submenu-title {}
+
+.ant-menu.ant-menu-dark .ant-menu-item.customclass {
+  font-family: 'Poppins", Sans-serif';
+  font-size: 16px;
+}
+
 .ant-menu.ant-menu-dark .ant-menu-item-selected.customclass {
   color: #ffff;
   background-color: #001529;
@@ -46,3 +53,115 @@
   border-bottom-color: #fff;
 
 }
+
+.ant-card .ant-card-body {
+  padding: 6px 18px;
+}
+
+.ant-card .ant-card-body h3 {
+  font-family: "Poppins", Sans-serif;
+  margin-bottom: 0;
+}
+
+.section-heading h1 {
+  font-family: "Poppins", Sans-serif;
+  font-weight: 600;
+}
+
+.section-heading p {
+  font-family: "Poppins", Sans-serif;
+}
+
+.ant-card {
+  transition: transform 0.3s ease;
+  /* Thời gian và hiệu ứng mượt */
+}
+
+.ant-card:hover {
+  transform: translateY(-5px);
+  cursor: pointer;
+}
+
+
+
+.card-meta-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.4em;
+  min-height: 4.2em;
+}
+
+.ant-card .ant-card-meta-title {
+  padding: 10px 0px;
+  margin-bottom: 0 !important;
+  font-family: "Poppins", Sans-serif;
+  font-weight: 400;
+}
+
+.ant-card .ant-card-meta-description {
+  padding: 6px 0px;
+  font-family: "Poppins", Sans-serif;
+  margin-bottom: 10px;
+}
+
+.circle-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+
+.circle-icon:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.filter-form {
+  padding: 0 0 0 24px;
+}
+
+.filter-form .ant-checkbox-label {
+  font-family: "Poppins", Sans-serif;
+  font-size: 16px;
+  margin: 4px;
+
+}
+
+.filter-form .ant-form-item-label>label {
+  font-family: "Poppins", Sans-serif;
+  font-size: 18px;
+
+}
+
+.ant-card .ant-card-actions button {
+  width: 90%;
+  background-color: #fff;
+  color: #395bca;
+  border: 1px solid #395bca;
+  font-size: 16px;
+
+}
+
+.ant-card .ant-card-actions span {
+  line-height: 1;
+}
+
+.ant-card .ant-card-actions button:hover {
+  background-color: #395bca !important;
+  color: #ffff !important;
+}
+
+/* #395bca */

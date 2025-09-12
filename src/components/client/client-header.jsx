@@ -1,9 +1,6 @@
 import {
   AntCloudOutlined,
-  CarOutlined,
-  PhoneOutlined,
   TwitterOutlined,
-  WechatOutlined,
   WhatsAppOutlined,
 } from "@ant-design/icons";
 import { ConfigProvider, Menu } from "antd";
@@ -15,7 +12,7 @@ const HeaderClient = () => {
   const location = useLocation();
   const items = [
     {
-      label: <Link to={"/"}>Trang Chủ</Link>,
+      label: "Trang Chủ",
       key: "/",
       icon: <TwitterOutlined />,
       className: "customclass",
@@ -43,7 +40,12 @@ const HeaderClient = () => {
   }
   return (
     <>
-      <Header style={{ display: "flex", alignItems: "center" }}>
+      <Header
+        style={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
         <div>
           <Link to={"/"} style={{ display: "flex", alignItems: "center" }}>
             <img
