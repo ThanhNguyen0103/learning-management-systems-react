@@ -12,3 +12,8 @@ export const callDeleteUser = (id) => {
 export const callGetUserById = (id) => {
   return instance.get(`/api/v1/users/${id}`);
 };
+export const callGetUser = (query) => {
+  return instance.get(`/api/v1/users`, {
+    params: query,
+  });
+};

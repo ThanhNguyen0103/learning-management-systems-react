@@ -19,13 +19,13 @@ const HeaderClient = () => {
     },
     {
       label: "Khóa Học",
-      key: "cars",
+      key: "courses",
       icon: <AntCloudOutlined />,
       className: "customclass",
     },
     {
       label: "Liên hệ",
-      key: "ca",
+      key: "contact",
       icon: <WhatsAppOutlined />,
       className: "customclass",
     },
@@ -70,7 +70,7 @@ const HeaderClient = () => {
           <Menu
             theme="dark"
             mode="horizontal"
-            defaultSelectedKeys={["/"]}
+            selectedKeys={selectedKey}
             items={items}
             style={{ flex: 1, minWidth: 0, height: 50, marginBottom: 18 }}
           />

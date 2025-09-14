@@ -15,14 +15,13 @@ import {
 import Meta from "antd/es/card/Meta";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
-import img10 from "../assets/db1.jpg";
-import img11 from "../assets/db2.jpg";
-import img12 from "../assets/db3.jpg";
-import img13 from "../assets/db4.jpg";
-import img14 from "../assets/db5.jpg";
-import img15 from "../assets/db6.jpg";
-import img16 from "../assets/db7.jpg";
-import img17 from "../assets/db8.jpg";
+import img10 from "../../assets/db1.jpg";
+import img11 from "../../assets/db2.jpg";
+import img12 from "../../assets/db3.jpg";
+import img13 from "../../assets/db4.jpg";
+import img14 from "../../assets/db5.jpg";
+import img17 from "../../assets/db8.jpg";
+
 const CoursesPage = () => {
   const [form] = Form.useForm();
   const onFinish = (values) => {

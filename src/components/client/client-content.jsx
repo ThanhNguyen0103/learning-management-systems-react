@@ -89,10 +89,7 @@ const ContentClient = () => {
 
       <Divider />
       <section>
-        <div
-          className="section-heading"
-          style={{ textAlign: "center", marginBottom: 60 }}
-        >
+        <div className="section-heading" style={{ textAlign: "center" }}>
           <h1>Category</h1>
           <p>
             The website is designed according to each very standard roadmap.
@@ -235,7 +232,7 @@ const ContentClient = () => {
       <section>
         <div
           className="section-heading"
-          style={{ textAlign: "center", marginBottom: 60, marginTop: 60 }}
+          style={{ textAlign: "center", marginTop: 60 }}
         >
           <h1>Featured Courses</h1>
           <p>If you need any courses, please comment below the article..</p>

@@ -8,7 +8,6 @@ import {
   PlaySquareOutlined,
   RightOutlined,
   ShoppingCartOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -28,7 +27,7 @@ import Meta from "antd/es/card/Meta";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 
-import img12 from "../assets/db2.jpg";
+import img12 from "../../assets/db2.jpg";
 const CourseDetailsPage = () => {
   const text = `
   A dog is a type of domesticated animal.
@@ -172,37 +171,22 @@ const CourseDetailsPage = () => {
               </div>
               <div style={{ fontSize: 15 }}>
                 <div>Các kiến được đề cập trong khóa học này:</div>
-
                 <div style={{ lineHeight: 2.5 }}>
-                  <span> 1. Công nghệ sử dụng Backend (Java) :</span>
-                  <br />
-                  <span>
-                    <b> Spring Boot: </b> cấu hình và chạy dự án Spring một cách
-                    nhanh chóng Spring JPA: viết query database theo ORM (object
-                    relational mapping) Cách viết code theo mô hình : Controller
-                    - Service - Repository
-                  </span>
-                  <br />
-                  <span>
-                    <b>Spring JPA:</b> viết query database theo ORM (object
-                    relational mapping) Cách viết code theo mô hình : Controller
-                    - Service - Repository Cách viết code theo mô hình Domain
-                    Driven Design : Định nghĩa domain (model) Cách validate dữ
-                    liệu với package hỗ trợ sẵn của java Cách tư duy và thiết kế
-                    database, đồng thời ràng buộc mối quan hệ giữa các model
-                    (OneToOne, OneToMany, ManytoMany)
-                  </span>
-                  <br />
-                  <span>
-                    <b>Spring MVC:</b> viết code theo mô hình MVC với view là
-                    JSP, sử dụng JSTL (Jakarta Standard Tag Library)
-                  </span>
-                  <br />
-                  <span>
-                    <b>Spring Security:</b> Authentication (người dùng đã đăng
-                    nhập hay chưa ?) và authorization (người dùng có quyền làm
-                    gì) cho Spring
-                  </span>
+                  1. Công nghệ sử dụng Backend (Java) :<br />
+                  Spring Boot: cấu hình và chạy dự án Spring một cách nhanh
+                  chóng Spring JPA: viết query database theo ORM (object
+                  relational mapping) Cách viết code theo mô hình : Controller -
+                  Service - Repository Spring JPA:viết query database theo ORM
+                  (object relational mapping) Cách viết code theo mô hình :
+                  Controller - Service - Repository Cách viết code theo mô hình
+                  Domain Driven Design : Định nghĩa domain (model) Cách validate
+                  dữ liệu với package hỗ trợ sẵn của java Cách tư duy và thiết
+                  kế database, đồng thời ràng buộc mối quan hệ giữa các model
+                  (OneToOne, OneToMany, ManytoMany) Spring MVC: viết code theo
+                  mô hình MVC với view là JSP, sử dụng JSTL (Jakarta Standard
+                  Tag Library) Spring Security: Authentication (người dùng đã
+                  đăng nhập hay chưa ?) và authorization (người dùng có quyền
+                  làm gì) cho Spring
                 </div>
               </div>
             </div>
