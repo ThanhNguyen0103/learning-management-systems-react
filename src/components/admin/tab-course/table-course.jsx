@@ -18,45 +18,20 @@ import {
 } from "antd";
 import { useRef, useState } from "react";
 import {
-  callCreateUser,
-  callDeleteUser,
-  callGetUser,
-  callUpdateUser,
-} from "../../service/service-api";
+  callCreateCourse,
+  callDeleteCourse,
+  callGetCourse,
+  callUpdateCourse,
+} from "../../../service/service-api";
+import { useOutletContext } from "react-router";
+const CourseTable = () => {
+  const { handleOpenModal, instructors, categories } = useOutletContext();
 
-const UserTable = () => {
   const actionRef = useRef();
   const [form] = Form.useForm();
   const [typeSubmit, setTypeSubmit] = useState("");
   const [open, setOpen] = useState(false);
 
-  const handleSubmit = async (value) => {
-    try {
-      await form.validateFields();
-      const res =
-        typeSubmit === "create"
-          ? await callCreateUser(value)
-          : await callUpdateUser(value);
-
-      if (res) {
-        message.success(
-          typeSubmit === "create"
-            ? "Tạo user thành công"
-            : "Cập nhật user thành công"
-        );
-        form.resetFields();
-        setOpen(false);
-        actionRef.current?.reload();
-      } else {
-        notification.error({
-          message: "Có lỗi xảy ra",
-          description: res?.message || "Vui lòng thử lại",
-        });
-      }
-    } catch (error) {
-      message.error(error.message || "Có lỗi xảy ra");
-    }
-  };
   const columns = [
     {
       title: "ID",
@@ -66,21 +41,23 @@ const UserTable = () => {
       hideInSearch: true,
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-    },
-    {
-      title: "Full Name",
+      title: "Tên khóa học",
       dataIndex: "name",
       key: "name",
-      sorter: true,
     },
     {
-      title: "Role",
-      dataIndex: ["role", "name"],
-      key: "role",
-      hideInSearch: true,
+      title: "Tác giả",
+      dataIndex: "instructor",
+      key: "instructor",
+      render: (_, record) => <span>{record.instructor.name}</span>,
+    },
+
+    {
+      title: "Giá",
+      dataIndex: "price",
+      key: "price",
+      sorter: true,
+      align: "center",
     },
     {
       title: "Trạng thái",
@@ -93,6 +70,7 @@ const UserTable = () => {
         </Tag>
       ),
     },
+
     {
       title: "CreatedAt",
       dataIndex: "createdAt",
@@ -117,9 +95,11 @@ const UserTable = () => {
           <EditOutlined
             style={{ fontSize: 20, color: "rgb(255, 165, 0)" }}
             onClick={() => {
-              setOpen(true);
-              form.setFieldsValue(value);
-              setTypeSubmit("update");
+              // setOpen(true);
+              // handleOpenModal();
+              // form.setFieldsValue(value);
+              // setTypeSubmit("update");
+              console.log("!");
             }}
           />
 
@@ -127,9 +107,9 @@ const UserTable = () => {
             title="Delete user"
             description="Bạn có muốn xóa user ?"
             onConfirm={async () => {
-              await callDeleteUser(value.id);
+              await callDeleteCourse(value.id);
               actionRef.current?.reload();
-              message.success("Xóa user thành công");
+              message.success("Xóa course thành công");
             }}
             // onCancel={cancel}
             okText="Yes"
@@ -143,6 +123,33 @@ const UserTable = () => {
       ),
     },
   ];
+  const handleSubmit = async (value) => {
+    try {
+      await form.validateFields();
+      const res =
+        typeSubmit === "create"
+          ? await callCreateCourse(value)
+          : await callUpdateCourse(value);
+
+      if (res) {
+        message.success(
+          typeSubmit === "create"
+            ? "Tạo course thành công"
+            : "Cập nhật course thành công"
+        );
+        form.resetFields();
+        setOpen(false);
+        actionRef.current?.reload();
+      } else {
+        notification.error({
+          message: "Có lỗi xảy ra",
+          description: res?.message || "Vui lòng thử lại",
+        });
+      }
+    } catch (error) {
+      message.error(error.message || "Có lỗi xảy ra");
+    }
+  };
 
   return (
     <>
@@ -165,7 +172,7 @@ const UserTable = () => {
                   .join("") // &
               : undefined,
           };
-          const res = await callGetUser(query);
+          const res = await callGetCourse(query);
           return {
             data: res.data.result,
             success: true,
@@ -213,6 +220,7 @@ const UserTable = () => {
             icon={<PlusOutlined />}
             onClick={() => {
               setOpen(true);
+              handleOpenModal();
               setTypeSubmit("create");
             }}
             type="primary"
@@ -223,9 +231,10 @@ const UserTable = () => {
       />
 
       <Modal
-        title={typeSubmit == "create" ? "Tạo mới user" : "Cập nhật user"}
+        title={
+          typeSubmit == "create" ? "Tạo mới khóa học" : "Cập nhật  khóa học"
+        }
         okText={typeSubmit == "create" ? "Tạo mới " : "Cập nhật "}
-        centered
         open={open}
         onOk={() => {
           handleSubmit(form.getFieldsValue());
@@ -234,6 +243,7 @@ const UserTable = () => {
           form.resetFields();
           setOpen(false);
         }}
+        centered
         width={{
           xs: "90%",
           sm: "80%",
@@ -243,74 +253,47 @@ const UserTable = () => {
           xxl: "40%",
         }}
       >
-        <Form layout="vertical" form={form} initialValues={{ active: true }}>
+        <Form form={form} layout="vertical" initialValues={{ active: true }}>
           <Row gutter={16}>
-            <Col lg={12} md={12} sm={24} xs={24}>
+            <Col span={12}>
               <Form.Item
-                rules={[
-                  { required: true, message: "Vui lòng nhập email" },
-                  { type: "email", message: "Email không hợp lệ" },
-                ]}
-                label="Email"
-                name="email"
-              >
-                <Input
-                  disabled={typeSubmit == "update"}
-                  placeholder="Nhập email  "
-                />
-              </Form.Item>
-            </Col>
-            {typeSubmit == "create" && (
-              <Col lg={12} md={12} sm={24} xs={24}>
-                <Form.Item
-                  rules={[
-                    { required: true, message: "Vui lòng nhập password" },
-                  ]}
-                  label="Mật khẩu"
-                  name="password"
-                >
-                  <Input.Password placeholder="Nhập password " />
-                </Form.Item>
-              </Col>
-            )}
-            <Col lg={12} md={12} sm={12} xs={12}>
-              <Form.Item
-                rules={[
-                  { required: true, message: "Vui lòng nhập tên" },
-                  {
-                    type: "string",
-                    min: 6,
-                    message: "Tên phải có ít nhất 6 ký tự",
-                  },
-                ]}
-                label="Tên hiển thị"
+                label="Tên khóa học"
                 name="name"
+                rules={[
+                  { required: true, message: "Vui lòng nhập tên khóa học" },
+                ]}
               >
-                <Input id="modal-name" placeholder="Nhập tên hiển thị" />
+                <Input placeholder="Nhập tên khóa học" />
               </Form.Item>
             </Col>
-            <Col lg={6} md={6} sm={12} xs={12}>
+
+            <Col span={12}>
               <Form.Item
-                label="Tuổi"
-                name="age"
-                rules={[
-                  { required: true, message: "Vui lòng nhập tuổi" },
-                  {
-                    type: "number",
-                    min: 18,
-                    max: 99,
-                    message: "Tuổi từ 18 đến 99",
-                  },
-                ]}
+                label="Giá (VNĐ)"
+                name="price"
+                rules={[{ required: true, message: "Vui lòng nhập giá" }]}
               >
                 <InputNumber
-                  id="modal-age"
-                  placeholder="Nhập tuổi"
                   style={{ width: "100%" }}
+                  min={0}
+                  formatter={(value) =>
+                    `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  }
                 />
               </Form.Item>
             </Col>
-            <Col lg={6} md={6} sm={6} xs={6}>
+
+            <Col span={24}>
+              <Form.Item
+                label="Mô tả"
+                name="description"
+                rules={[{ required: true, message: "Vui lòng nhập mô tả" }]}
+              >
+                <Input.TextArea rows={4} placeholder="Nhập mô tả khóa học" />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
               <Form.Item
                 label="Trạng thái"
                 name="active"
@@ -320,39 +303,46 @@ const UserTable = () => {
               </Form.Item>
             </Col>
 
-            <Col lg={6} md={6} sm={12} xs={12}>
+            <Col span={12}>
               <Form.Item
-                rules={[{ required: true, message: "Vui lòng chọn giới tính" }]}
-                label="Giới tính"
-                name="gender"
+                label="Giảng viên"
+                name={["instructor", "id"]}
+                rules={[
+                  { required: true, message: "Vui lòng chọn giảng viên" },
+                ]}
               >
-                <Select placeholder="Chọn giới tính">
-                  <Select.Option value="FEMALE">Female</Select.Option>
-                  <Select.Option value="MALE">Male</Select.Option>
-                  <Select.Option value="OTHER">Other</Select.Option>
+                <Select
+                  placeholder="Chọn giảng viên"
+                  showSearch
+                  optionFilterProp="children"
+                  disabled={typeSubmit === "update"}
+                >
+                  {instructors?.map((i) => (
+                    <Select.Option key={i.id} value={i.id}>
+                      {i.name}
+                    </Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
-            <Col lg={6} md={6} sm={12} xs={12}>
+
+            <Col span={12}>
               <Form.Item
-                rules={[{ required: true, message: "Vui lòng chọn vai trò" }]}
-                label="Vai trò"
-                name={["role", "name"]}
+                label="Danh mục"
+                name={["category", "id"]}
+                rules={[{ required: true, message: "Vui lòng chọn danh mục" }]}
               >
-                <Select placeholder="Chọn vai trò">
-                  <Select.Option value="ADMIN">Admin</Select.Option>
-                  <Select.Option value="INTRUCTOR">Intructor</Select.Option>
-                  <Select.Option value="USER">User</Select.Option>
+                <Select
+                  placeholder="Chọn danh mục"
+                  showSearch
+                  optionFilterProp="children"
+                >
+                  {categories?.map((c) => (
+                    <Select.Option key={c.id} value={c.id}>
+                      {c.name}
+                    </Select.Option>
+                  ))}
                 </Select>
-              </Form.Item>
-            </Col>
-            <Col lg={12} md={12} sm={24} xs={24}>
-              <Form.Item
-                rules={[{ required: true, message: "Vui lòng nhập địa chỉ" }]}
-                label="Địa chỉ"
-                name="address"
-              >
-                <Input placeholder="Nhập địa chỉ" />
               </Form.Item>
             </Col>
             {typeSubmit === "update" && (
@@ -368,4 +358,4 @@ const UserTable = () => {
     </>
   );
 };
-export default UserTable;
+export default CourseTable;

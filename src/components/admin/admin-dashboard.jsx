@@ -1,4 +1,4 @@
 const DashBoardPage = () => {
-  return <div>Amin</div>;
+  return <div>DashBoardPage</div>;
 };
 export default DashBoardPage;

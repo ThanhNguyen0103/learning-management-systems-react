@@ -1,20 +1,35 @@
 import {
+  AppstoreOutlined,
   BugOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
-import { Outlet } from "react-router";
-
+import { Link, Outlet } from "react-router";
+import "../style/page-admin.css";
+import {
+  callGetCourse,
+  callGetCourseCategory,
+  callGetUser,
+} from "../service/service-api";
 const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
-
+  const [instructors, setInstructors] = useState();
+  const [categories, setCategories] = useState();
+  const [courses, setCourses] = useState();
+  const handleOpenModal = async () => {
+    const intructors = await callGetUser();
+    const category = await callGetCourseCategory();
+    const course = await callGetCourse();
+    setCategories(category.data.result);
+    setInstructors(intructors.data.result);
+    setCourses(course.data.result);
+  };
   return (
     <Layout>
       <Sider
@@ -33,19 +48,24 @@ const LayoutAdmin = () => {
           defaultSelectedKeys={["1"]}
           items={[
             {
-              key: "1",
+              label: <Link to="/admin">Dashboard</Link>,
+              key: "/admin",
+              icon: <AppstoreOutlined />,
+            },
+            {
+              label: <Link to="/admin/users">User</Link>,
+              key: "/admin/users",
               icon: <UserOutlined />,
-              label: "nav 1",
             },
             {
-              key: "2",
-              icon: <VideoCameraOutlined />,
-              label: "nav 2",
-            },
-            {
-              key: "3",
+              key: "/admin/courses",
               icon: <UploadOutlined />,
-              label: "nav 3",
+              label: <Link to="/admin/courses">Course</Link>,
+            },
+            {
+              key: "/admin/assignments",
+              icon: <UploadOutlined />,
+              label: <Link to="/admin/assignments">Assignment</Link>,
             },
           ]}
         />
@@ -70,7 +90,14 @@ const LayoutAdmin = () => {
             minHeight: 280,
           }}
         >
-          <Outlet />
+          <Outlet
+            context={{
+              handleOpenModal,
+              instructors,
+              categories,
+              courses,
+            }}
+          />
         </Content>
       </Layout>
     </Layout>
