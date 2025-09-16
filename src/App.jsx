@@ -10,7 +10,7 @@ import { ConfigProvider } from "antd";
 import "antd/dist/reset.css";
 import DashBoardPage from "./components/admin/admin-dashboard";
 import CourseTabs from "./components/admin/admin-tabs-course";
-import AssignmentTable from "./components/admin/admin-table-assignment";
+import AssigmnetTabs from "./components/admin/admin-tabs-assignment";
 
 const App = () => {
   return (
@@ -26,7 +26,7 @@ const App = () => {
             <Route index element={<DashBoardPage />} />
             <Route path="users" element={<UserTable />} />
             <Route path="courses" element={<CourseTabs />} />
-            <Route path="assignments" element={<AssignmentTable />} />
+            <Route path="assignments" element={<AssigmnetTabs />} />
           </Route>
         </Routes>
       </BrowserRouter>

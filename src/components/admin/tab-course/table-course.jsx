@@ -1,4 +1,9 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import ProTable from "@ant-design/pro-table";
 import {
   Button,
@@ -15,6 +20,7 @@ import {
   Space,
   Switch,
   Tag,
+  Upload,
 } from "antd";
 import { useRef, useState } from "react";
 import {
@@ -22,11 +28,11 @@ import {
   callDeleteCourse,
   callGetCourse,
   callUpdateCourse,
+  callUploadFile,
 } from "../../../service/service-api";
-import { useOutletContext } from "react-router";
-const CourseTable = () => {
+import { Link, useOutletContext } from "react-router";
+const CourseTable = ({ onChangeSelectedId }) => {
   const { handleOpenModal, instructors, categories } = useOutletContext();
-
   const actionRef = useRef();
   const [form] = Form.useForm();
   const [typeSubmit, setTypeSubmit] = useState("");
@@ -44,6 +50,16 @@ const CourseTable = () => {
       title: "Tên khóa học",
       dataIndex: "name",
       key: "name",
+      render: (_, record) => (
+        <Link
+          to={"#"}
+          onClick={() => {
+            onChangeSelectedId(record);
+          }}
+        >
+          {record.name}
+        </Link>
+      ),
     },
     {
       title: "Tác giả",
@@ -95,11 +111,22 @@ const CourseTable = () => {
           <EditOutlined
             style={{ fontSize: 20, color: "rgb(255, 165, 0)" }}
             onClick={() => {
-              // setOpen(true);
-              // handleOpenModal();
-              // form.setFieldsValue(value);
-              // setTypeSubmit("update");
-              console.log("!");
+              setOpen(true);
+              handleOpenModal();
+              form.setFieldsValue({
+                ...value,
+                upload: value.thumnail
+                  ? [
+                      {
+                        uid: "-1", // id tạm, chỉ cần unique
+                        name: value.thumnail, // tên file hiển thị
+                        status: "done", // báo đã upload xong
+                        url: `http://localhost:8080/storage/thumnail/${value.thumnail}`,
+                      },
+                    ]
+                  : [],
+              });
+              setTypeSubmit("update");
             }}
           />
 
@@ -126,10 +153,23 @@ const CourseTable = () => {
   const handleSubmit = async (value) => {
     try {
       await form.validateFields();
+      // Nếu có upload ảnh
+      let thumnail;
+      if (value.upload && value.upload.length > 0) {
+        // Tạo FormData
+        const file = value.upload[0];
+        if (file.originFileObj) {
+          const formData = new FormData();
+          formData.append("folder", "thumnail");
+          formData.append("file", file.originFileObj);
+          thumnail = await callUploadFile(formData);
+        }
+      }
+      const { upload, ...payload } = value;
       const res =
         typeSubmit === "create"
-          ? await callCreateCourse(value)
-          : await callUpdateCourse(value);
+          ? await callCreateCourse({ ...payload, thumnail })
+          : await callUpdateCourse({ ...payload, thumnail });
 
       if (res) {
         message.success(
@@ -149,6 +189,13 @@ const CourseTable = () => {
     } catch (error) {
       message.error(error.message || "Có lỗi xảy ra");
     }
+  };
+  //
+  const normFile = (e) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
   };
 
   return (
@@ -326,7 +373,7 @@ const CourseTable = () => {
               </Form.Item>
             </Col>
 
-            <Col span={12}>
+            <Col span={6}>
               <Form.Item
                 label="Danh mục"
                 name={["category", "id"]}
@@ -343,6 +390,29 @@ const CourseTable = () => {
                     </Select.Option>
                   ))}
                 </Select>
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item
+                label="Upload"
+                name="upload"
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
+              >
+                <Upload listType="picture-card" beforeUpload={() => false}>
+                  <button
+                    style={{
+                      color: "inherit",
+                      cursor: "inherit",
+                      border: 0,
+                      background: "none",
+                    }}
+                    type="button"
+                  >
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
+                  </button>
+                </Upload>
               </Form.Item>
             </Col>
             {typeSubmit === "update" && (

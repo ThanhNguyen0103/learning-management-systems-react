@@ -74,3 +74,9 @@ export const callGetAssignment = (query) => {
     params: query,
   });
 };
+// ----- upload file
+export const callUploadFile = (value) => {
+  return instance.post("/api/v1/upload", value, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};

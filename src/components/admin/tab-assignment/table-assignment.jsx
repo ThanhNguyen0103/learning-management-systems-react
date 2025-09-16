@@ -20,18 +20,34 @@ import {
   callCreateAssignment,
   callGetAssignment,
   callUpdateAssignment,
-} from "../../service/service-api";
+} from "../../../service/service-api";
 import dayjs from "dayjs";
-import { useOutletContext } from "react-router";
+import { Link, useOutletContext } from "react-router";
 
-const AssignmentTable = () => {
+const AssignmentTable = ({ onSelectAssignment }) => {
   const actionRef = useRef();
   const [form] = Form.useForm();
   const [typeSubmit, setTypeSubmit] = useState("");
   const [open, setOpen] = useState(false);
   const { handleOpenModal, instructors, courses } = useOutletContext();
   const columns = [
-    { title: "Tên bài tập", dataIndex: "name", key: "name", align: "center" },
+    {
+      title: "Tên bài tập",
+      dataIndex: "name",
+      key: "name",
+      align: "center",
+      render: (_, record) => (
+        <Link
+          to="#"
+          onClick={(e) => {
+            e.preventDefault();
+            onSelectAssignment(record);
+          }}
+        >
+          {record.name}
+        </Link>
+      ),
+    },
     {
       title: "Ngày giao",
       dataIndex: "assignedDate",
@@ -208,7 +224,7 @@ const AssignmentTable = () => {
           pageSize: 10,
         }}
         dateFormatter="string"
-        headerTitle="User Table"
+        headerTitle="Assignment Table"
         toolBarRender={() => [
           <Button
             key="button"
@@ -273,11 +289,9 @@ const AssignmentTable = () => {
                 ]}
               >
                 <Select placeholder="Chọn trạng thái">
-                  {/* {statusOptions?.map((st) => (
-                    <Select.Option key={st} value={st}>
-                      {st}
-                    </Select.Option>
-                  ))} */}
+                  <Select.Option value={"DRAFT"}>DRAFT</Select.Option>
+                  <Select.Option value={"ASSIGNED"}>ASSIGNED</Select.Option>
+                  <Select.Option value={"CLOSED"}>CLOSED</Select.Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -302,7 +316,23 @@ const AssignmentTable = () => {
               <Form.Item
                 label="Hạn nộp"
                 name="dueDate"
-                rules={[{ required: true, message: "Vui lòng chọn hạn nộp" }]}
+                rules={[
+                  { required: true, message: "Vui lòng chọn hạn nộp" },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      const assigned = getFieldValue("assignedDate");
+                      if (!value || !assigned) {
+                        return Promise.resolve();
+                      }
+                      if (value.isAfter(assigned)) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        new Error("Hạn nộp phải sau ngày giao")
+                      );
+                    },
+                  }),
+                ]}
               >
                 <DatePicker
                   showTime
