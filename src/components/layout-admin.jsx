@@ -1,9 +1,12 @@
 import {
+  AliwangwangOutlined,
+  ApiOutlined,
   AppstoreOutlined,
   BugOutlined,
+  ExceptionOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
+  ScheduleOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
@@ -59,13 +62,23 @@ const LayoutAdmin = () => {
             },
             {
               key: "/admin/courses",
-              icon: <UploadOutlined />,
+              icon: <ScheduleOutlined />,
               label: <Link to="/admin/courses">Course</Link>,
             },
             {
               key: "/admin/assignments",
-              icon: <UploadOutlined />,
+              icon: <AliwangwangOutlined />,
               label: <Link to="/admin/assignments">Assignment</Link>,
+            },
+            {
+              key: "/admin/permissions",
+              icon: <ApiOutlined />,
+              label: <Link to="/admin/permissions">Permission</Link>,
+            },
+            {
+              key: "/admin/roles",
+              icon: <ExceptionOutlined />,
+              label: <Link to="/admin/roles">Role</Link>,
             },
           ]}
         />

@@ -162,7 +162,7 @@ const UserTable = () => {
                   .map(
                     (key) => `${key},${sort[key] === "ascend" ? "asc" : "desc"}`
                   )
-                  .join("") // &
+                  .join(",") // &
               : undefined,
           };
           const res = await callGetUser(query);

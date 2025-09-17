@@ -80,3 +80,43 @@ export const callUploadFile = (value) => {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };
+
+// --- module permission
+
+export const callCreatePermission = (value) => {
+  return instance.post("/api/v1/permissions", value);
+};
+export const callUpdatePermission = (value) => {
+  return instance.put("/api/v1/permissions", value);
+};
+export const callDeletePermission = (id) => {
+  return instance.delete(`/api/v1/permissions/${id}`);
+};
+export const callGetPermissionById = (id) => {
+  return instance.get(`/api/v1/permissions/${id}`);
+};
+export const callGetPermission = (query) => {
+  return instance.get(`/api/v1/permissions`, {
+    params: query,
+  });
+};
+
+// --- module role
+
+export const callCreateRole = (value) => {
+  return instance.post("/api/v1/roles", value);
+};
+export const callUpdateRole = (value) => {
+  return instance.put("/api/v1/roles", value);
+};
+export const callDeleteRole = (id) => {
+  return instance.delete(`/api/v1/roles/${id}`);
+};
+export const callGetRoleById = (id) => {
+  return instance.get(`/api/v1/roles/${id}`);
+};
+export const callGetRole = (query) => {
+  return instance.get(`/api/v1/roles`, {
+    params: query,
+  });
+};

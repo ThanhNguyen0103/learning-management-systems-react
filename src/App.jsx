@@ -11,6 +11,8 @@ import "antd/dist/reset.css";
 import DashBoardPage from "./components/admin/admin-dashboard";
 import CourseTabs from "./components/admin/admin-tabs-course";
 import AssigmnetTabs from "./components/admin/admin-tabs-assignment";
+import PermissionTable from "./components/admin/admin-table-permission";
+import RoleTable from "./components/admin/admin-table-role";
 
 const App = () => {
   return (
@@ -27,6 +29,8 @@ const App = () => {
             <Route path="users" element={<UserTable />} />
             <Route path="courses" element={<CourseTabs />} />
             <Route path="assignments" element={<AssigmnetTabs />} />
+            <Route path="permissions" element={<PermissionTable />} />
+            <Route path="roles" element={<RoleTable />} />
           </Route>
         </Routes>
       </BrowserRouter>
