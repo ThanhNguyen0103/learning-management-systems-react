@@ -154,7 +154,6 @@ const RoleTable = () => {
 
   const items = filterModule?.map((mod) => {
     const perms = permissions.filter((p) => p.module === mod);
-    console.log(permissionId);
 
     return {
       key: mod,
@@ -201,11 +200,12 @@ const RoleTable = () => {
                   width: "95%",
                   border: "1px solid rgb(217 217 217)",
                   borderRadius: 6,
-                  padding: 12,
+                  padding: 18,
                   margin: "8px 0",
                 }}
               >
                 <Switch
+                  style={{ margin: "0 16px" }}
                   checked={permissionId?.some((item) => item.id === p.id)}
                   onChange={(key) => {
                     const next = key
@@ -215,8 +215,23 @@ const RoleTable = () => {
                   }}
                 />
                 <div>
-                  <span>{p.name}</span>
-                  <div>{p.method}</div>
+                  <h3 style={{ fontSize: 16 }}>{p.name}</h3>
+                  <div>
+                    <Tag
+                      style={{ fontSize: 16 }}
+                      color={
+                        p.method == "POST"
+                          ? "red"
+                          : p.method == "PUT"
+                          ? "green"
+                          : p.method
+                          ? "blue"
+                          : "yellow"
+                      }
+                    >
+                      {p.method}
+                    </Tag>
+                  </div>
                 </div>
               </Space>
             </Col>
@@ -289,7 +304,7 @@ const RoleTable = () => {
           pageSize: 10,
         }}
         dateFormatter="string"
-        headerTitle="Danh sách Permission (Quyền hạn)"
+        headerTitle="Danh sách Role (Vai trò)"
         toolBarRender={() => [
           <Button
             key="button"

@@ -1,3 +1,4 @@
+import axios from "axios";
 import instance from "./service-api-custom";
 // module user
 export const callCreateUser = (value) => {
@@ -118,5 +119,22 @@ export const callGetRoleById = (id) => {
 export const callGetRole = (query) => {
   return instance.get(`/api/v1/roles`, {
     params: query,
+  });
+};
+
+// --- module auth
+export const callLogin = (value) => {
+  return instance.post("/api/v1/auth/login", value);
+};
+export const callGetAccount = () => {
+  return instance.get("/api/v1/auth/account");
+};
+// export const callRefreshToken = () => {
+//   return instance.get("/api/v1/auth/refresh");
+// };
+
+export const callRefreshToken = () => {
+  return axios.get("http://localhost:8080/api/v1/auth/refresh", {
+    withCredentials: true,
   });
 };

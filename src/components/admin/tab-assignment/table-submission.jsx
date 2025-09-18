@@ -120,7 +120,7 @@ const SubmissionTable = ({ assignmentId }) => {
         pageSize: 10,
       }}
       dateFormatter="string"
-      headerTitle="User Table"
+      headerTitle="Danh sách bài nộp"
       toolBarRender={() => [
         <Button
           disabled

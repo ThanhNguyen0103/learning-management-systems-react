@@ -224,7 +224,7 @@ const AssignmentTable = ({ onSelectAssignment }) => {
           pageSize: 10,
         }}
         dateFormatter="string"
-        headerTitle="Assignment Table"
+        headerTitle="Danh sách Assignment "
         toolBarRender={() => [
           <Button
             key="button"

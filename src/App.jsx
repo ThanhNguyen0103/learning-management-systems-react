@@ -13,26 +13,31 @@ import CourseTabs from "./components/admin/admin-tabs-course";
 import AssigmnetTabs from "./components/admin/admin-tabs-assignment";
 import PermissionTable from "./components/admin/admin-table-permission";
 import RoleTable from "./components/admin/admin-table-role";
+import LoginPage from "./pages/page-login";
+import AuthProvider from "./components/auth";
 
 const App = () => {
   return (
     <ConfigProvider locale={viVN}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LayoutClient />}>
-            <Route index element={<ContentClient />} />
-            <Route path="courses" element={<CoursesPage />} />
-            <Route path="courses/:id" element={<CourseDetailsPage />} />
-          </Route>
-          <Route path="/admin" element={<LayoutAdmin />}>
-            <Route index element={<DashBoardPage />} />
-            <Route path="users" element={<UserTable />} />
-            <Route path="courses" element={<CourseTabs />} />
-            <Route path="assignments" element={<AssigmnetTabs />} />
-            <Route path="permissions" element={<PermissionTable />} />
-            <Route path="roles" element={<RoleTable />} />
-          </Route>
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<LayoutClient />}>
+              <Route index element={<ContentClient />} />
+              <Route path="courses" element={<CoursesPage />} />
+              <Route path="courses/:id" element={<CourseDetailsPage />} />
+            </Route>
+            <Route path="/admin" element={<LayoutAdmin />}>
+              <Route index element={<DashBoardPage />} />
+              <Route path="users" element={<UserTable />} />
+              <Route path="courses" element={<CourseTabs />} />
+              <Route path="assignments" element={<AssigmnetTabs />} />
+              <Route path="permissions" element={<PermissionTable />} />
+              <Route path="roles" element={<RoleTable />} />
+            </Route>
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </ConfigProvider>
   );
