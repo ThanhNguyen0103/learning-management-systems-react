@@ -53,14 +53,16 @@ const AssignmentTable = ({ onSelectAssignment }) => {
       dataIndex: "assignedDate",
       key: "assignedDate",
       align: "center",
-      render: (date) => (date ? dayjs(date).format("DD/MM/YYYY HH:mm") : ""),
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
     {
       title: "Hạn nộp",
       dataIndex: "dueDate",
       align: "center",
       key: "dueDate",
-      render: (date) => (date ? dayjs(date).format("DD/MM/YYYY HH:mm") : ""),
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
     {
       title: "Người giao",

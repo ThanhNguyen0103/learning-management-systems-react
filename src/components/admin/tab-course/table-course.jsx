@@ -1,9 +1,4 @@
-import {
-  DeleteOutlined,
-  EditOutlined,
-  PlusOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import ProTable from "@ant-design/pro-table";
 import {
   Button,
@@ -31,6 +26,8 @@ import {
   callUploadFile,
 } from "../../../service/service-api";
 import { Link, useOutletContext } from "react-router";
+import dayjs from "dayjs";
+
 const CourseTable = ({ onChangeSelectedId }) => {
   const { handleOpenModal, instructors, categories } = useOutletContext();
   const actionRef = useRef();
@@ -50,6 +47,7 @@ const CourseTable = ({ onChangeSelectedId }) => {
       title: "Tên khóa học",
       dataIndex: "name",
       key: "name",
+      width: 200,
       render: (_, record) => (
         <Link
           to={"#"}
@@ -74,6 +72,13 @@ const CourseTable = ({ onChangeSelectedId }) => {
       key: "price",
       sorter: true,
       align: "center",
+      render: (value) =>
+        value != null
+          ? value.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })
+          : "",
     },
     {
       title: "Trạng thái",
@@ -93,6 +98,8 @@ const CourseTable = ({ onChangeSelectedId }) => {
       key: "createdAt",
       hideInSearch: true,
       sorter: true,
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
     {
       title: "UpdatedAt",
@@ -100,6 +107,8 @@ const CourseTable = ({ onChangeSelectedId }) => {
       key: "updatedAt",
       hideInSearch: true,
       sorter: true,
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
     {
       title: "Action",
@@ -115,6 +124,7 @@ const CourseTable = ({ onChangeSelectedId }) => {
               handleOpenModal();
               form.setFieldsValue({
                 ...value,
+                categories: value.categories.map((c) => c.id),
                 upload: value.thumnail
                   ? [
                       {
@@ -165,11 +175,21 @@ const CourseTable = ({ onChangeSelectedId }) => {
           thumnail = await callUploadFile(formData);
         }
       }
-      const { upload, ...payload } = value;
+      const { upload, categories, ...payload } = value;
+      const Listcategories = categories.map((item) => ({ id: item }));
+
       const res =
         typeSubmit === "create"
-          ? await callCreateCourse({ ...payload, thumnail })
-          : await callUpdateCourse({ ...payload, thumnail });
+          ? await callCreateCourse({
+              ...payload,
+              thumnail,
+              categories: Listcategories,
+            })
+          : await callUpdateCourse({
+              ...payload,
+              thumnail,
+              categories: Listcategories,
+            });
 
       if (res) {
         message.success(
@@ -260,7 +280,7 @@ const CourseTable = ({ onChangeSelectedId }) => {
           pageSize: 10,
         }}
         dateFormatter="string"
-        headerTitle="User Table"
+        headerTitle="Danh sách khóa học"
         toolBarRender={() => [
           <Button
             key="button"
@@ -373,16 +393,18 @@ const CourseTable = ({ onChangeSelectedId }) => {
               </Form.Item>
             </Col>
 
-            <Col span={6}>
+            <Col span={16}>
               <Form.Item
                 label="Danh mục"
-                name={["category", "id"]}
+                name="categories"
                 rules={[{ required: true, message: "Vui lòng chọn danh mục" }]}
               >
                 <Select
+                  mode="multiple"
                   placeholder="Chọn danh mục"
                   showSearch
                   optionFilterProp="children"
+                  allowClear
                 >
                   {categories?.map((c) => (
                     <Select.Option key={c.id} value={c.id}>

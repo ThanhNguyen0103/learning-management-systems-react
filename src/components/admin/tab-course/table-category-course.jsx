@@ -19,6 +19,7 @@ import {
   callGetCourseCategory,
   callUpdateCourseCategory,
 } from "../../../service/service-api";
+import dayjs from "dayjs";
 const CourseCategory = () => {
   const actionRef = useRef();
   const [form] = Form.useForm();
@@ -44,6 +45,8 @@ const CourseCategory = () => {
       key: "createdAt",
       hideInSearch: true,
       sorter: true,
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
     {
       title: "UpdatedAt",
@@ -51,6 +54,8 @@ const CourseCategory = () => {
       key: "updatedAt",
       hideInSearch: true,
       sorter: true,
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
     {
       title: "Action",

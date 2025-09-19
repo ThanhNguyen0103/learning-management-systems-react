@@ -15,6 +15,9 @@ import PermissionTable from "./components/admin/admin-table-permission";
 import RoleTable from "./components/admin/admin-table-role";
 import LoginPage from "./pages/page-login";
 import AuthProvider from "./components/auth";
+import PrivateRoute from "./components/private-route";
+import ForbiddenPage from "./pages/page-fobiden";
+import ErrorPage from "./pages/page-error";
 
 const App = () => {
   return (
@@ -27,15 +30,23 @@ const App = () => {
               <Route path="courses" element={<CoursesPage />} />
               <Route path="courses/:id" element={<CourseDetailsPage />} />
             </Route>
-            <Route path="/admin" element={<LayoutAdmin />}>
-              <Route index element={<DashBoardPage />} />
-              <Route path="users" element={<UserTable />} />
-              <Route path="courses" element={<CourseTabs />} />
-              <Route path="assignments" element={<AssigmnetTabs />} />
-              <Route path="permissions" element={<PermissionTable />} />
-              <Route path="roles" element={<RoleTable />} />
+
+            <Route
+              element={<PrivateRoute allowedRoles={["ADMIN", "INSTRUCTOR"]} />}
+            >
+              <Route path="/admin" element={<LayoutAdmin />}>
+                <Route index element={<DashBoardPage />} />
+                <Route path="users" element={<UserTable />} />
+                <Route path="courses" element={<CourseTabs />} />
+                <Route path="assignments" element={<AssigmnetTabs />} />
+                <Route path="permissions" element={<PermissionTable />} />
+                <Route path="roles" element={<RoleTable />} />
+              </Route>
             </Route>
+
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/fobiden" element={<ForbiddenPage />} />
+            <Route path="/error" element={<ErrorPage />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>

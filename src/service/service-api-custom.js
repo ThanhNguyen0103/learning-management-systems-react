@@ -35,7 +35,11 @@ instance.interceptors.response.use(
       alert("403");
     }
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (
+      error.response.status === 401 &&
+      !originalRequest._retry &&
+      localStorage.getItem("accessToken")
+    ) {
       originalRequest._retry = true; // đánh dấu đã retry 1 lần
       try {
         // Gọi API refresh

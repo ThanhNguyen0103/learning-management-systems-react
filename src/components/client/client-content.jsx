@@ -1,4 +1,4 @@
-import { Avatar, Card, Carousel, Col, Divider, Row, theme } from "antd";
+import { Avatar, Card, Carousel, Col, Divider, Row, Space, theme } from "antd";
 import { Content } from "antd/es/layout/layout";
 import img1 from "../../assets/landing-page.png";
 import img2 from "../../assets/web-hosting.png";
@@ -19,10 +19,20 @@ import img16 from "../../assets/db7.jpg";
 import img17 from "../../assets/db8.jpg";
 import Meta from "antd/es/card/Meta";
 import { FlagOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import { callGetCourse } from "../../service/service-api";
 const ContentClient = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const [course, setCourse] = useState();
+  useEffect(() => {
+    const getAllCourse = async () => {
+      const res = await callGetCourse();
+      if (res.data) {
+        setCourse(res.data.result);
+      }
+    };
+    getAllCourse();
+  }, []);
+
   return (
     <Content style={{ padding: "0 48px", backgroundColor: "#fff" }}>
       <Carousel arrows>
@@ -245,350 +255,54 @@ const ContentClient = () => {
           gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
           style={{ justifyContent: "center", marginBottom: 24 }}
         >
-          <Col className="gutter-row" span={5} style={{ marginBottom: 28 }}>
-            <Card
-              cover={
-                <div style={{ position: "relative" }}>
-                  <img
-                    alt="example"
-                    src={img10}
-                    style={{
-                      width: "100%",
-                      height: 160,
-                      objectFit: "cover",
-                      display: "block",
-                      borderRadius: "8px 8px 0 0",
-                    }}
-                  />
-                  <div className="circle-icon">
-                    <FlagOutlined style={{ fontSize: 16, color: "#fff" }} />
-                  </div>
-                </div>
-              }
-              style={{
-                minHeight: 320,
-                boxShadow: "0 4px 15px 4px rgba(39,57,101,.1)",
-              }}
+          {course?.map((item) => (
+            <Col
+              className="gutter-row"
+              span={5}
+              style={{ marginBottom: 28 }}
+              key={item.id}
             >
-              <Meta
-                title={
-                  <div className="card-meta-title">
-                    SQL Database Administration: Advanced MySQL
-                  </div>
-                }
-                description={
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Avatar
-                      src="https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-                      style={{ marginRight: 8 }}
+              <Card
+                cover={
+                  <div style={{ position: "relative" }}>
+                    <img
+                      alt="example"
+                      src={`http://localhost:8080/storage/thumnail/${item.thumnail}`}
+                      style={{
+                        width: "100%",
+                        height: 160,
+                        objectFit: "cover",
+                        display: "block",
+                        borderRadius: "8px 8px 0 0",
+                      }}
                     />
-                    <span>In Back-end, Data Structure And Algorithm</span>
+                    <div className="circle-icon">
+                      <FlagOutlined style={{ fontSize: 16, color: "#fff" }} />
+                    </div>
                   </div>
                 }
-              />
-            </Card>
-          </Col>
-          <Col className="gutter-row" span={5} style={{ marginBottom: 28 }}>
-            <Card
-              cover={
-                <div style={{ position: "relative" }}>
-                  <img
-                    alt="example"
-                    src={img11}
-                    style={{
-                      width: "100%",
-                      height: 160,
-                      objectFit: "cover",
-                      display: "block",
-                      borderRadius: "8px 8px 0 0",
-                    }}
-                  />
-                  <div className="circle-icon">
-                    <FlagOutlined style={{ fontSize: 16, color: "#fff" }} />
-                  </div>
-                </div>
-              }
-              style={{
-                minHeight: 320,
-                boxShadow: "0 4px 15px 4px rgba(39,57,101,.1)",
-              }}
-            >
-              <Meta
-                title={
-                  <div className="card-meta-title">
-                    Building Microservices with Spring Boot & Spring Cloud
-                  </div>
-                }
-                description={
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Avatar
-                      src="https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-                      style={{ marginRight: 8 }}
-                    />
-                    <span>In Back-end, Data Structure And Algorithm</span>
-                  </div>
-                }
-              />
-            </Card>
-          </Col>
-          <Col className="gutter-row" span={5} style={{ marginBottom: 28 }}>
-            <Card
-              cover={
-                <div style={{ position: "relative" }}>
-                  <img
-                    alt="example"
-                    src={img12}
-                    style={{
-                      width: "100%",
-                      height: 160,
-                      objectFit: "cover",
-                      display: "block",
-                      borderRadius: "8px 8px 0 0",
-                    }}
-                  />
-                  <div className="circle-icon">
-                    <FlagOutlined style={{ fontSize: 16, color: "#fff" }} />
-                  </div>
-                </div>
-              }
-              style={{
-                minHeight: 320,
-                boxShadow: "0 4px 15px 4px rgba(39,57,101,.1)",
-              }}
-            >
-              <Meta
-                title={
-                  <div className="card-meta-title">
-                    Spring Security 6 Zero to Master along with JWT,OAUTH2
-                  </div>
-                }
-                description={
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Avatar
-                      src="https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-                      style={{ marginRight: 8 }}
-                    />
-                    <span>In Back-end, Data Structure And Algorithm</span>
-                  </div>
-                }
-              />
-            </Card>
-          </Col>
-          <Col className="gutter-row" span={5} style={{ marginBottom: 28 }}>
-            <Card
-              cover={
-                <div style={{ position: "relative" }}>
-                  <img
-                    alt="example"
-                    src={img13}
-                    style={{
-                      width: "100%",
-                      height: 160,
-                      objectFit: "cover",
-                      display: "block",
-                      borderRadius: "8px 8px 0 0",
-                    }}
-                  />
-                  <div className="circle-icon">
-                    <FlagOutlined style={{ fontSize: 16, color: "#fff" }} />
-                  </div>
-                </div>
-              }
-              style={{
-                minHeight: 320, // hoặc số bạn muốn
-                boxShadow: "0 4px 15px 4px rgba(39,57,101,.1)",
-              }}
-            >
-              <Meta
-                title={
-                  <div className="card-meta-title">
-                    Development Software Engineering Microservices Apache
-                  </div>
-                }
-                description={
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Avatar
-                      src="https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-                      style={{ marginRight: 8 }}
-                    />
-                    <span>In Back-end, Data Structure And Algorithm</span>
-                  </div>
-                }
-              />
-            </Card>
-          </Col>
-          <Col className="gutter-row" span={5} style={{ marginBottom: 28 }}>
-            <Card
-              cover={
-                <div style={{ position: "relative" }}>
-                  <img
-                    alt="example"
-                    src={img14}
-                    style={{
-                      width: "100%",
-                      height: 160,
-                      objectFit: "cover",
-                      display: "block",
-                      borderRadius: "8px 8px 0 0",
-                    }}
-                  />
-                  <div className="circle-icon">
-                    <FlagOutlined style={{ fontSize: 16, color: "#fff" }} />
-                  </div>
-                </div>
-              }
-              style={{
-                minHeight: 320, // hoặc số bạn muốn
-                boxShadow: "0 4px 15px 4px rgba(39,57,101,.1)",
-              }}
-            >
-              <Meta
-                title={
-                  <div className="card-meta-title">
-                    Master the Coding Interview: Data Structures + Algorithms
-                  </div>
-                }
-                description={
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Avatar
-                      src="https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-                      style={{ marginRight: 8 }}
-                    />
-                    <span>In Back-end, Data Structure And Algorithm</span>
-                  </div>
-                }
-              />
-            </Card>
-          </Col>
-          <Col className="gutter-row" span={5} style={{ marginBottom: 28 }}>
-            <Card
-              cover={
-                <div style={{ position: "relative" }}>
-                  <img
-                    alt="example"
-                    src={img15}
-                    style={{
-                      width: "100%",
-                      height: 160,
-                      objectFit: "cover",
-                      display: "block",
-                      borderRadius: "8px 8px 0 0",
-                    }}
-                  />
-                  <div className="circle-icon">
-                    <FlagOutlined style={{ fontSize: 16, color: "#fff" }} />
-                  </div>
-                </div>
-              }
-              style={{
-                minHeight: 320, // hoặc số bạn muốn
-                boxShadow: "0 4px 15px 4px rgba(39,57,101,.1)",
-              }}
-            >
-              <Meta
-                title={
-                  <div className="card-meta-title">
-                    Docker, From Zero To Hero: Become a DevOps Docker Master
-                  </div>
-                }
-                description={
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Avatar
-                      src="https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-                      style={{ marginRight: 8 }}
-                    />
-                    <span>In Back-end, Data Structure And Algorithm</span>
-                  </div>
-                }
-              />
-            </Card>
-          </Col>
-          <Col className="gutter-row" span={5} style={{ marginBottom: 28 }}>
-            <Card
-              cover={
-                <div style={{ position: "relative" }}>
-                  <img
-                    alt="example"
-                    src={img16}
-                    style={{
-                      width: "100%",
-                      height: 160,
-                      objectFit: "cover",
-                      display: "block",
-                      borderRadius: "8px 8px 0 0",
-                    }}
-                  />
-                  <div className="circle-icon">
-                    <FlagOutlined style={{ fontSize: 16, color: "#fff" }} />
-                  </div>
-                </div>
-              }
-              style={{
-                minHeight: 320, // hoặc số bạn muốn
-                boxShadow: "0 4px 15px 4px rgba(39,57,101,.1)",
-              }}
-            >
-              <Meta
-                title={
-                  <div className="card-meta-title">
-                    Docker & Kubernetes: The Practical Guide
-                  </div>
-                }
-                description={
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Avatar
-                      src="https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-                      style={{ marginRight: 8 }}
-                    />
-                    <span>In Back-end, Data Structure And Algorithm</span>
-                  </div>
-                }
-              />
-            </Card>
-          </Col>
-          <Col className="gutter-row" span={5} style={{ marginBottom: 28 }}>
-            <Card
-              cover={
-                <div style={{ position: "relative" }}>
-                  <img
-                    alt="example"
-                    src={img17}
-                    style={{
-                      width: "100%",
-                      height: 160,
-                      objectFit: "cover",
-                      display: "block",
-                      borderRadius: "8px 8px 0 0",
-                    }}
-                  />
-                  <div className="circle-icon">
-                    <FlagOutlined style={{ fontSize: 16, color: "#fff" }} />
-                  </div>
-                </div>
-              }
-              style={{
-                minHeight: 320, // hoặc số bạn muốn
-                boxShadow: "0 4px 15px 4px rgba(39,57,101,.1)",
-              }}
-            >
-              <Meta
-                title={
-                  <div className="card-meta-title">
-                    SQL for Beginners: Learn SQL using MySQL and Database Design
-                  </div>
-                }
-                description={
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Avatar
-                      src="https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-                      style={{ marginRight: 8 }}
-                    />
-                    <span>In Back-end, Data Structure And Algorithm</span>
-                  </div>
-                }
-              />
-            </Card>
-          </Col>
+                style={{
+                  minHeight: 320,
+                  boxShadow: "0 4px 15px 4px rgba(39,57,101,.1)",
+                }}
+              >
+                <Meta
+                  title={<div className="card-meta-title">{item.name}</div>}
+                  description={
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <Avatar
+                        src="https://api.dicebear.com/7.x/miniavs/svg?seed=8"
+                        style={{ marginRight: 8 }}
+                      />
+                      <span>
+                        {item.categories.map((item) => item.name).join(" , ")}
+                      </span>
+                    </div>
+                  }
+                />
+              </Card>
+            </Col>
+          ))}
         </Row>
       </section>
     </Content>

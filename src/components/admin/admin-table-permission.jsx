@@ -89,7 +89,8 @@ const PermissionTable = () => {
       dataIndex: "createdAt",
       key: "createdAt",
       align: "center",
-      render: (date) => (date ? dayjs(date).format("DD/MM/YYYY HH:mm") : ""),
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
 
     {
@@ -97,7 +98,8 @@ const PermissionTable = () => {
       dataIndex: "updatedAt",
       key: "updatedAt",
       align: "center",
-      render: (date) => (date ? dayjs(date).format("DD/MM/YYYY HH:mm") : ""),
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
     {
       title: "Action",

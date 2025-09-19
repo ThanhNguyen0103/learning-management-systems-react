@@ -34,7 +34,7 @@ const RoleTable = () => {
   const [open, setOpen] = useState(false);
   const [permissions, setPermissions] = useState();
   const [permissionId, setPermissionId] = useState([]);
-  const [activeKey, setActiveKey] = useState(["USERS"]);
+  const [activeKey, setActiveKey] = useState(["COURSES"]);
   const columns = [
     {
       title: "ID",
@@ -65,7 +65,8 @@ const RoleTable = () => {
       dataIndex: "createdAt",
       key: "createdAt",
       align: "center",
-      render: (date) => (date ? dayjs(date).format("DD/MM/YYYY HH:mm") : ""),
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
 
     {
@@ -73,7 +74,8 @@ const RoleTable = () => {
       dataIndex: "updatedAt",
       key: "updatedAt",
       align: "center",
-      render: (date) => (date ? dayjs(date).format("DD/MM/YYYY HH:mm") : ""),
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
     {
       title: "Action",
@@ -114,7 +116,7 @@ const RoleTable = () => {
 
   const handleOpenModal = async (record) => {
     setPermissionId(record?.permissions ?? []);
-    const permissions = await callGetPermission();
+    const permissions = await callGetPermission({ page: 1, size: 999 });
     setPermissions(permissions.data.result);
     setOpen(true);
   };
@@ -129,8 +131,8 @@ const RoleTable = () => {
       if (res) {
         message.success(
           typeSubmit === "create"
-            ? "Tạo role thành công"
-            : "Cập nhật role thành công"
+            ? "Tạo vai trò thành công"
+            : "Cập nhật vài trò thành công"
         );
         form.resetFields();
         setOpen(false);
@@ -321,7 +323,7 @@ const RoleTable = () => {
         ]}
       />
       <Modal
-        title={typeSubmit == "create" ? "Tạo mới role" : "Cập nhật role"}
+        title={typeSubmit == "create" ? "Tạo mới vai trò" : "Cập nhật vai trò"}
         okText={typeSubmit == "create" ? "Tạo mới " : "Cập nhật "}
         centered
         open={open}

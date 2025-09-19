@@ -19,7 +19,8 @@ const EnrollmentTable = ({ courseId }) => {
       dataIndex: "enrollDate",
       key: "enrollDate",
       align: "center",
-      render: (date) => (date ? dayjs(date).format("DD/MM/YYYY HH:mm") : ""),
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
 
     {

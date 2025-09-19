@@ -23,6 +23,7 @@ import {
   callGetUser,
   callUpdateUser,
 } from "../../service/service-api";
+import dayjs from "dayjs";
 
 const UserTable = () => {
   const actionRef = useRef();
@@ -99,6 +100,8 @@ const UserTable = () => {
       key: "createdAt",
       hideInSearch: true,
       sorter: true,
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
     {
       title: "UpdatedAt",
@@ -106,6 +109,8 @@ const UserTable = () => {
       key: "updatedAt",
       hideInSearch: true,
       sorter: true,
+      render: (date) =>
+        dayjs(date).isValid() ? dayjs(date).format("DD/MM/YYYY HH:mm") : "",
     },
     {
       title: "Action",
@@ -206,7 +211,7 @@ const UserTable = () => {
           pageSize: 10,
         }}
         dateFormatter="string"
-        headerTitle="User Table"
+        headerTitle="Danh sách tài khoản"
         toolBarRender={() => [
           <Button
             key="button"
@@ -340,9 +345,10 @@ const UserTable = () => {
                 name={["role", "name"]}
               >
                 <Select placeholder="Chọn vai trò">
-                  <Select.Option value="ADMIN">Admin</Select.Option>
-                  <Select.Option value="INTRUCTOR">Intructor</Select.Option>
-                  <Select.Option value="USER">User</Select.Option>
+                  <Select.Option value="ADMIN">ADMIN</Select.Option>
+                  <Select.Option value="INSTRUCTOR">INSTRUCTOR</Select.Option>
+                  <Select.Option value="STUDENT">STUDENT</Select.Option>
+                  <Select.Option value="USER">USER</Select.Option>
                 </Select>
               </Form.Item>
             </Col>
