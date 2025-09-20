@@ -44,11 +44,27 @@ const HeaderClient = () => {
   const itemsDrop = [
     {
       key: "1",
-      label: <a>Quản lí tài khoản</a>,
+      label: (
+        <Link to={"/"} style={{ color: "black" }}>
+          Trang chủ
+        </Link>
+      ),
+    },
+    user.role.name !== "USER" && {
+      key: "2",
+      label: (
+        <Link to={"/admin"} style={{ color: "black" }}>
+          Quản lí tài khoản
+        </Link>
+      ),
     },
     {
-      key: "2",
-      label: <a>Khóa học của tôi</a>,
+      key: "3",
+      label: (
+        <Link to={"/admin"} style={{ color: "black" }}>
+          Quản lí khóa học
+        </Link>
+      ),
     },
   ];
   return (

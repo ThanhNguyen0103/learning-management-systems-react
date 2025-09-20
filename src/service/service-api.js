@@ -37,6 +37,11 @@ export const callGetCourse = (query) => {
     params: query,
   });
 };
+export const callGetCourseByUser = (query) => {
+  return instance.get(`/api/v1/users/course`, {
+    params: query,
+  });
+};
 // --- module course catrgory
 
 export const callCreateCourseCategory = (value) => {
@@ -72,6 +77,11 @@ export const callGetAssignmentById = (id) => {
 };
 export const callGetAssignment = (query) => {
   return instance.get(`/api/v1/assignments`, {
+    params: query,
+  });
+};
+export const callGetAssignmentByUser = (query) => {
+  return instance.get(`/api/v1/users/assignment`, {
     params: query,
   });
 };

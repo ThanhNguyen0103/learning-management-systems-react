@@ -19,12 +19,15 @@ import { useRef, useState } from "react";
 import {
   callCreateAssignment,
   callGetAssignment,
+  callGetAssignmentByUser,
   callUpdateAssignment,
 } from "../../../service/service-api";
 import dayjs from "dayjs";
 import { Link, useOutletContext } from "react-router";
+import { useAuth } from "../../auth";
 
 const AssignmentTable = ({ onSelectAssignment }) => {
+  const { user, permissions } = useAuth();
   const actionRef = useRef();
   const [form] = Form.useForm();
   const [typeSubmit, setTypeSubmit] = useState("");
@@ -98,42 +101,48 @@ const AssignmentTable = ({ onSelectAssignment }) => {
       key: "action",
       width: 80,
       hideInSearch: true,
-      render: (value) => (
-        <Space>
-          <EditOutlined
-            style={{ fontSize: 20, color: "rgb(255, 165, 0)" }}
-            onClick={() => {
-              setOpen(true);
-              handleOpenModal();
-              form.setFieldsValue({
-                ...value,
-                assignedDate: value.assignedDate
-                  ? dayjs(value.assignedDate)
-                  : null,
-                dueDate: value.dueDate ? dayjs(value.dueDate) : null,
-              });
-              setTypeSubmit("update");
-            }}
-          />
-
-          <Popconfirm
-            title="Delete user"
-            description="Bạn có muốn xóa user ?"
-            onConfirm={async () => {
-              //   await callDeleteUser(value.id);
-              //   actionRef.current?.reload();
-              //   message.success("Xóa user thành công");
-            }}
-            // onCancel={cancel}
-            okText="Yes"
-            cancelText="No"
-          >
-            <DeleteOutlined
-              style={{ color: "rgb(255, 77, 79)", fontSize: 20 }}
+      render: (value) =>
+        permissions.some(
+          (item) =>
+            item.method?.toUpperCase() === "PUT" &&
+            item.module?.toUpperCase() === "ASSIGNMENTS"
+        ) && (
+          <Space>
+            <EditOutlined
+              style={{ fontSize: 20, color: "rgb(255, 165, 0)" }}
+              onClick={() => {
+                setOpen(true);
+                handleOpenModal();
+                console.log(value);
+                form.setFieldsValue({
+                  ...value,
+                  assignedDate: value.assignedDate
+                    ? dayjs(value.assignedDate)
+                    : null,
+                  dueDate: value.dueDate ? dayjs(value.dueDate) : null,
+                });
+                setTypeSubmit("update");
+              }}
             />
-          </Popconfirm>
-        </Space>
-      ),
+
+            <Popconfirm
+              title="Delete user"
+              description="Bạn có muốn xóa user ?"
+              onConfirm={async () => {
+                //   await callDeleteUser(value.id);
+                //   actionRef.current?.reload();
+                //   message.success("Xóa user thành công");
+              }}
+              // onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
+            >
+              <DeleteOutlined
+                style={{ color: "rgb(255, 77, 79)", fontSize: 20 }}
+              />
+            </Popconfirm>
+          </Space>
+        ),
     },
   ];
   const handleSubmit = async (value) => {
@@ -164,6 +173,11 @@ const AssignmentTable = ({ onSelectAssignment }) => {
     }
   };
 
+  const handleGetAssignment = async (value) => {
+    if (user.role.name === "ADMIN") {
+      return await callGetAssignment(value);
+    } else return await callGetAssignmentByUser(value);
+  };
   return (
     <>
       <ProTable
@@ -185,7 +199,7 @@ const AssignmentTable = ({ onSelectAssignment }) => {
                   .join("") // &
               : undefined,
           };
-          const res = await callGetAssignment(query);
+          const res = await handleGetAssignment(query);
           return {
             data: res.data.result,
             success: true,
@@ -228,18 +242,24 @@ const AssignmentTable = ({ onSelectAssignment }) => {
         dateFormatter="string"
         headerTitle="Danh sách Assignment "
         toolBarRender={() => [
-          <Button
-            key="button"
-            icon={<PlusOutlined />}
-            onClick={() => {
-              setOpen(true);
-              handleOpenModal();
-              setTypeSubmit("create");
-            }}
-            type="primary"
-          >
-            Thêm mới
-          </Button>,
+          permissions.some(
+            (item) =>
+              item.method?.toUpperCase() === "POST" && // quyền create
+              item.module?.toUpperCase() === "ASSIGNMENTS"
+          ) && (
+            <Button
+              key="button"
+              icon={<PlusOutlined />}
+              onClick={() => {
+                setOpen(true);
+                handleOpenModal();
+                setTypeSubmit("create");
+              }}
+              type="primary"
+            >
+              Thêm mới
+            </Button>
+          ),
         ]}
       />
       <Modal
@@ -359,11 +379,7 @@ const AssignmentTable = ({ onSelectAssignment }) => {
                   optionFilterProp="children"
                   disabled={typeSubmit == "update"}
                 >
-                  {instructors?.map((i) => (
-                    <Select.Option key={i.id} value={i.id}>
-                      {i.name}
-                    </Select.Option>
-                  ))}
+                  <Select.Option value={user?.id}>{user?.name}</Select.Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -381,7 +397,7 @@ const AssignmentTable = ({ onSelectAssignment }) => {
                   optionFilterProp="children"
                   disabled={typeSubmit == "update"}
                 >
-                  {courses?.map((c) => (
+                  {user?.courses?.map((c) => (
                     <Select.Option key={c.id} value={c.id}>
                       {c.name}
                     </Select.Option>

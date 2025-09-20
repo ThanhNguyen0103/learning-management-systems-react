@@ -22,13 +22,16 @@ import {
   callCreateCourse,
   callDeleteCourse,
   callGetCourse,
+  callGetCourseByUser,
   callUpdateCourse,
   callUploadFile,
 } from "../../../service/service-api";
 import { Link, useOutletContext } from "react-router";
 import dayjs from "dayjs";
+import { useAuth } from "../../auth";
 
 const CourseTable = ({ onChangeSelectedId }) => {
+  const { user, permissions } = useAuth();
   const { handleOpenModal, instructors, categories } = useOutletContext();
   const actionRef = useRef();
   const [form] = Form.useForm();
@@ -115,49 +118,52 @@ const CourseTable = ({ onChangeSelectedId }) => {
       key: "action",
       width: 50,
       hideInSearch: true,
-      render: (value) => (
-        <Space size="middle">
-          <EditOutlined
-            style={{ fontSize: 20, color: "rgb(255, 165, 0)" }}
-            onClick={() => {
-              setOpen(true);
-              handleOpenModal();
-              form.setFieldsValue({
-                ...value,
-                categories: value.categories.map((c) => c.id),
-                upload: value.thumnail
-                  ? [
-                      {
-                        uid: "-1", // id tạm, chỉ cần unique
-                        name: value.thumnail, // tên file hiển thị
-                        status: "done", // báo đã upload xong
-                        url: `http://localhost:8080/storage/thumnail/${value.thumnail}`,
-                      },
-                    ]
-                  : [],
-              });
-              setTypeSubmit("update");
-            }}
-          />
-
-          <Popconfirm
-            title="Delete user"
-            description="Bạn có muốn xóa user ?"
-            onConfirm={async () => {
-              await callDeleteCourse(value.id);
-              actionRef.current?.reload();
-              message.success("Xóa course thành công");
-            }}
-            // onCancel={cancel}
-            okText="Yes"
-            cancelText="No"
-          >
-            <DeleteOutlined
-              style={{ color: "rgb(255, 77, 79)", fontSize: 20 }}
+      render: (value) =>
+        permissions.some(
+          (item) => item.method === "PUT" && item.module == "COURSES"
+        ) && (
+          <Space size="middle">
+            <EditOutlined
+              style={{ fontSize: 20, color: "rgb(255, 165, 0)" }}
+              onClick={() => {
+                setOpen(true);
+                handleOpenModal();
+                form.setFieldsValue({
+                  ...value,
+                  categories: value.categories.map((c) => c.id),
+                  upload: value.thumnail
+                    ? [
+                        {
+                          uid: "-1", // id tạm, chỉ cần unique
+                          name: value.thumnail, // tên file hiển thị
+                          status: "done", // báo đã upload xong
+                          url: `http://localhost:8080/storage/thumnail/${value.thumnail}`,
+                        },
+                      ]
+                    : [],
+                });
+                setTypeSubmit("update");
+              }}
             />
-          </Popconfirm>
-        </Space>
-      ),
+
+            <Popconfirm
+              title="Delete user"
+              description="Bạn có muốn xóa user ?"
+              onConfirm={async () => {
+                await callDeleteCourse(value.id);
+                actionRef.current?.reload();
+                message.success("Xóa course thành công");
+              }}
+              // onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
+            >
+              <DeleteOutlined
+                style={{ color: "rgb(255, 77, 79)", fontSize: 20 }}
+              />
+            </Popconfirm>
+          </Space>
+        ),
     },
   ];
   const handleSubmit = async (value) => {
@@ -210,7 +216,15 @@ const CourseTable = ({ onChangeSelectedId }) => {
       message.error(error.message || "Có lỗi xảy ra");
     }
   };
-  //
+
+  const handleGetCourse = async (value) => {
+    if (user.role.name === "ADMIN") {
+      return await callGetCourse(value);
+    } else {
+      return await callGetCourseByUser(value);
+    }
+  };
+
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
@@ -239,7 +253,9 @@ const CourseTable = ({ onChangeSelectedId }) => {
                   .join("") // &
               : undefined,
           };
-          const res = await callGetCourse(query);
+          // const res = await callGetCourse(query);
+          const res = await handleGetCourse(query);
+
           return {
             data: res.data.result,
             success: true,
@@ -282,18 +298,24 @@ const CourseTable = ({ onChangeSelectedId }) => {
         dateFormatter="string"
         headerTitle="Danh sách khóa học"
         toolBarRender={() => [
-          <Button
-            key="button"
-            icon={<PlusOutlined />}
-            onClick={() => {
-              setOpen(true);
-              handleOpenModal();
-              setTypeSubmit("create");
-            }}
-            type="primary"
-          >
-            Thêm mới
-          </Button>,
+          permissions.some(
+            (item) =>
+              item.method?.toUpperCase() === "POST" && // quyền create
+              item.module?.toUpperCase() === "COURSES"
+          ) && (
+            <Button
+              key="button"
+              icon={<PlusOutlined />}
+              onClick={() => {
+                setOpen(true);
+                handleOpenModal();
+                setTypeSubmit("create");
+              }}
+              type="primary"
+            >
+              Thêm mới
+            </Button>
+          ),
         ]}
       />
 

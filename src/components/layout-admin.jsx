@@ -13,36 +13,29 @@ import { Avatar, Button, Dropdown, Layout, Menu, Space, theme } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useLocation } from "react-router";
 import "../style/page-admin.css";
-import {
-  callGetCourse,
-  callGetCourseCategory,
-  callGetUser,
-} from "../service/service-api";
+import { callGetCourseCategory } from "../service/service-api";
 import { useAuth } from "./auth";
 const LayoutAdmin = () => {
   const { user } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
-  const [instructors, setInstructors] = useState();
   const [categories, setCategories] = useState();
-  const [courses, setCourses] = useState();
+  const location = useLocation();
+
   const handleOpenModal = async () => {
-    const intructors = await callGetUser();
     const category = await callGetCourseCategory();
-    const course = await callGetCourse();
+
     setCategories(category.data.result);
-    setInstructors(intructors.data.result);
-    setCourses(course.data.result);
   };
   const itemsDrop = [
     {
       key: "1",
-      label: <a>Quản lí tài khoản</a>,
+      label: <Link to={"/"}>Trang chủ</Link>,
     },
     {
       key: "2",
-      label: <a>Khóa học của tôi</a>,
+      label: <Link to={"/"}>Quản lí tài khoản</Link>,
     },
   ];
   const itemMenu = [
@@ -99,6 +92,7 @@ const LayoutAdmin = () => {
           theme="light"
           mode="inline"
           defaultSelectedKeys={["1"]}
+          selectedKeys={[location.pathname]}
           items={itemMenu.filter((item) =>
             item?.role?.some((role) => role === user?.role?.name)
           )}
@@ -148,9 +142,7 @@ const LayoutAdmin = () => {
           <Outlet
             context={{
               handleOpenModal,
-              instructors,
               categories,
-              courses,
             }}
           />
         </Content>
