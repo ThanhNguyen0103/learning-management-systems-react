@@ -31,12 +31,12 @@ instance.interceptors.response.use(
   async function onRejected(error) {
     // error.reponse.status
     const originalRequest = error.config;
-    if (error.response.status === 403) {
+    if (error?.response?.status === 403) {
       alert("403");
     }
 
     if (
-      error.response.status === 401 &&
+      error?.response?.status === 401 &&
       !originalRequest._retry &&
       localStorage.getItem("accessToken")
     ) {
@@ -58,7 +58,7 @@ instance.interceptors.response.use(
         window.location.href = "/login";
       }
     }
-    return Promise.reject(error.response.data);
+    return Promise.reject(error?.response?.data);
   }
 );
 export default instance;

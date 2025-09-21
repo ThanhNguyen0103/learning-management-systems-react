@@ -15,13 +15,13 @@ const HeaderClient = () => {
   const location = useLocation();
   const items = [
     {
-      label: "Trang Chủ",
+      label: <Link to={"/"}>Trang Chủ</Link>,
       key: "/",
       icon: <TwitterOutlined />,
       className: "customclass",
     },
     {
-      label: "Khóa Học",
+      label: <Link to={"/courses"}>Khóa Học</Link>,
       key: "courses",
       icon: <AntCloudOutlined />,
       className: "customclass",
@@ -50,7 +50,7 @@ const HeaderClient = () => {
         </Link>
       ),
     },
-    user.role.name !== "USER" && {
+    user?.role?.name !== "USER" && {
       key: "2",
       label: (
         <Link to={"/admin"} style={{ color: "black" }}>

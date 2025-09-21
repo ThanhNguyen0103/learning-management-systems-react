@@ -1,4 +1,5 @@
 import {
+  CheckCircleOutlined,
   CheckOutlined,
   FileTextOutlined,
   HomeOutlined,
@@ -8,6 +9,7 @@ import {
   PlaySquareOutlined,
   RightOutlined,
   ShoppingCartOutlined,
+  StarFilled,
 } from "@ant-design/icons";
 
 import {
@@ -19,6 +21,7 @@ import {
   Divider,
   Layout,
   List,
+  Modal,
   Row,
   Space,
   theme,
@@ -27,28 +30,78 @@ import Meta from "antd/es/card/Meta";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 
-import img12 from "../../assets/db2.jpg";
+import { useEffect, useState } from "react";
+import { callGetCourseById } from "../../service/service-api";
+import { useParams } from "react-router";
 const CourseDetailsPage = () => {
-  const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
+  const { id } = useParams();
+  const [course, setCourse] = useState();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    handleGetCourseById();
+  }, []);
+  const handleGetCourseById = async () => {
+    const res = await callGetCourseById(id);
+    if (res.data) {
+      setCourse(res.data);
+    }
+  };
+
+  const text = `Hướng dẫn sử dụng khóa học hiệu quả 
+#1. Hướng Dẫn Sử Dụng Khóa Học Hiệu Quả
+#2. Hướng Dẫn Quyền Truy Cập Tài Liệu Khóa Học
+#3. Hướng Dẫn Quyền Truy Cập Source Code
+#4. Hướng Dẫn Tải Source Code Theo Từng Video
+#5.1. Demo kết quả đạt được
+#5.2 Yêu cầu để học được khóa học này
+#5.3 Cách Dùng Udemy - Hỗ Trợ Hỏi Đáp Q&A
+#5.4 Về Tác giả
 `;
   const items = [
     {
       key: "1",
-      label: "This is panel header 1",
-      children: <p>{text}</p>,
+      label: "Chapter 1 : Bắt buộc xem",
+      children: (
+        <p style={{ whiteSpace: "pre-line" }}>
+          {text
+            .trim()
+            .split("\n")
+            .map((line, idx) => (
+              <p
+                key={idx}
+                style={{ display: "flex", alignItems: "center", margin: 0 }}
+              >
+                {idx !== 0 && ( // chỉ từ dòng thứ 2 trở đi mới có icon
+                  <PlaySquareOutlined
+                    style={{ color: "green", marginRight: 8 }}
+                  />
+                )}
+                {line}
+              </p>
+            ))}
+        </p>
+      ),
     },
     {
       key: "2",
-      label: "This is panel header 2",
-      children: <p>{text}</p>,
+      label: "Chapter 2 : Setup Environment",
+      children: <p>// todo</p>,
     },
     {
       key: "3",
-      label: "This is panel header 3",
-      children: <p>{text}</p>,
+      label: "Chapter 3  : Hello World",
+      children: <p>//to do</p>,
+    },
+    {
+      key: "4",
+      label: "Chapter 4 : Systax Basic",
+      children: <p>//to do</p>,
+    },
+    {
+      key: "5",
+      label: "Chapter 5 : Summary",
+      children: <p>//to do</p>,
     },
   ];
   const data = [
@@ -92,15 +145,40 @@ const CourseDetailsPage = () => {
                   { title: <span>Khóa học</span> },
                 ]}
               />
-              <h1>
-                Java Spring MVC - Xây Dựng FullStack Website với Spring Boot
-              </h1>
-              <h2>Học Spring MVC Chưa Từng Dễ Tới Vậy</h2>
-              <p> ( 259 đánh giá ) 1089 học viên</p>
-              <p>Ngôn ngữ: Tiếng Việt</p>
+              <h1>{course?.name}</h1>
+
+              <div style={{ display: "flex" }}>
+                <div style={{ color: "gold", fontSize: 18, marginRight: 4 }}>
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <StarFilled key={i} />
+                  ))}
+                </div>
+                <p> ( 259 đánh giá ) 1089 học viên</p>
+              </div>
+              <p>Ngôn ngữ : Tiếng Việt</p>
               <div>
-                <span>Tags: BACKEND</span>
-                <span>Tác giả : Thanh Nguyen</span>
+                <span
+                  style={{
+                    backgroundColor: "#daebfc",
+                    padding: "4px 8px",
+                    borderRadius: 8,
+                    color: "#0059B2",
+                    marginRight: 8,
+                  }}
+                >
+                  Tags: {course?.categories?.map((item) => item.name).join(",")}
+                </span>
+
+                <span
+                  style={{
+                    backgroundColor: "#daebfc",
+                    padding: "4px 8px",
+                    borderRadius: 8,
+                    color: "#0059B2",
+                  }}
+                >
+                  Tác giả : {course?.instructor?.name}
+                </span>
               </div>
             </Col>
           </Row>
@@ -160,34 +238,8 @@ const CourseDetailsPage = () => {
               }}
             >
               <h2>Mô tả</h2>
-              <div>
-                <p style={{ fontSize: 16, lineHeight: 2 }}>
-                  Spring Framework là công cụ rất nổi tiếng trong cộng đồng
-                  Java, và một trong các tác dụng cùa nó là xây dựng một website
-                  hoàn chỉnh và chuyên nghiệp. Bằng cách áp dụng mô hình MVC
-                  (Model-View-Controller) và kiến trúc của Spring giúp chúng ta
-                  tiết kiệm thời gian xây dựng một website.
-                </p>
-              </div>
-              <div style={{ fontSize: 15 }}>
-                <div>Các kiến được đề cập trong khóa học này:</div>
-                <div style={{ lineHeight: 2.5 }}>
-                  1. Công nghệ sử dụng Backend (Java) :<br />
-                  Spring Boot: cấu hình và chạy dự án Spring một cách nhanh
-                  chóng Spring JPA: viết query database theo ORM (object
-                  relational mapping) Cách viết code theo mô hình : Controller -
-                  Service - Repository Spring JPA:viết query database theo ORM
-                  (object relational mapping) Cách viết code theo mô hình :
-                  Controller - Service - Repository Cách viết code theo mô hình
-                  Domain Driven Design : Định nghĩa domain (model) Cách validate
-                  dữ liệu với package hỗ trợ sẵn của java Cách tư duy và thiết
-                  kế database, đồng thời ràng buộc mối quan hệ giữa các model
-                  (OneToOne, OneToMany, ManytoMany) Spring MVC: viết code theo
-                  mô hình MVC với view là JSP, sử dụng JSTL (Jakarta Standard
-                  Tag Library) Spring Security: Authentication (người dùng đã
-                  đăng nhập hay chưa ?) và authorization (người dùng có quyền
-                  làm gì) cho Spring
-                </div>
+              <div style={{ fontSize: 16, lineHeight: 2 }}>
+                {course?.description}
               </div>
             </div>
           </section>
@@ -207,7 +259,7 @@ const CourseDetailsPage = () => {
                 <div style={{ position: "relative" }}>
                   <img
                     alt="example"
-                    src={img12}
+                    src={`http://localhost:8080/storage/thumnail/${course?.thumnail}`}
                     style={{
                       width: "100%",
                       height: 160,
@@ -234,7 +286,7 @@ const CourseDetailsPage = () => {
                         color: "#cb1c22",
                       }}
                     >
-                      949.000 ₫
+                      {(course?.price * 0.63).toLocaleString("vi-VN")} ₫
                     </span>
                     <br />
                     <span
@@ -242,7 +294,7 @@ const CourseDetailsPage = () => {
                         color: "#99a2aa",
                       }}
                     >
-                      1.499.000 ₫ -37%
+                      {course?.price?.toLocaleString("vi-VN")} ₫ -37%
                     </span>
                   </div>
                 }
@@ -254,7 +306,13 @@ const CourseDetailsPage = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Button size="large">
+                    <Button
+                      size="large"
+                      className="btn-buy-course"
+                      onClick={() => {
+                        setOpen(true);
+                      }}
+                    >
                       <div
                         style={{
                           display: "flex",
@@ -268,6 +326,16 @@ const CourseDetailsPage = () => {
                         Mua ngày
                       </div>
                     </Button>
+                    <Modal
+                      title="Basic Modal"
+                      closable={true}
+                      open={open}
+                      onCancel={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      <p>///todo</p>
+                    </Modal>
                     <span>
                       Cam kết mua khóa học 1 lần - thời gian học mãi mãi!
                     </span>

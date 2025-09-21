@@ -214,3 +214,8 @@
   margin-top: 8px;
   padding-bottom: 0;
 }
+
+.btn-buy-course:hover {
+  background-color: rgb(218, 235, 252) !important;
+  color: #f3f6f9;
+}

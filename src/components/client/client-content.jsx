@@ -9,18 +9,13 @@ import img6 from "../../assets/devops.png";
 import img7 from "../../assets/excel.png";
 import img8 from "../../assets/java-2.png";
 import img9 from "../../assets/web-design.png";
-import img10 from "../../assets/db1.jpg";
-import img11 from "../../assets/db2.jpg";
-import img12 from "../../assets/db3.jpg";
-import img13 from "../../assets/db4.jpg";
-import img14 from "../../assets/db5.jpg";
-import img15 from "../../assets/db6.jpg";
-import img16 from "../../assets/db7.jpg";
-import img17 from "../../assets/db8.jpg";
+
 import Meta from "antd/es/card/Meta";
 import { FlagOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { callGetCourse } from "../../service/service-api";
+import { Link } from "react-router";
+
 const ContentClient = () => {
   const [course, setCourse] = useState();
   useEffect(() => {
@@ -111,60 +106,68 @@ const ContentClient = () => {
           style={{ justifyContent: "center", marginBottom: 24 }}
         >
           <Col className="gutter-row" span={5}>
-            <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <img src={img2} alt="" style={{ width: "40%" }} />
-                <h3>Fundamental</h3>
-              </div>
-            </Card>
+            <Link to={"/courses"}>
+              <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <img src={img2} alt="" style={{ width: "40%" }} />
+                  <h3>Fundamental</h3>
+                </div>
+              </Card>
+            </Link>
           </Col>
           <Col className="gutter-row" span={5}>
-            <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <img src={img3} alt="" style={{ width: "40%" }} />
-                <h3>Back-end</h3>
-              </div>
-            </Card>
+            <Link to={"/courses"}>
+              <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <img src={img3} alt="" style={{ width: "40%" }} />
+                  <h3>Back-end</h3>
+                </div>
+              </Card>
+            </Link>
           </Col>
           <Col className="gutter-row" span={5}>
-            <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <img src={img4} alt="" style={{ width: "40%" }} />
-                <h3>Data Analyst</h3>
-              </div>
-            </Card>
+            <Link to={"/courses"}>
+              <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <img src={img4} alt="" style={{ width: "40%" }} />
+                  <h3>Data Analyst</h3>
+                </div>
+              </Card>
+            </Link>
           </Col>
           <Col className="gutter-row" span={5}>
-            <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-around",
-                  alignItems: "center",
-                }}
-              >
-                <img src={img5} alt="" style={{ width: "40%" }} />
-                <h3>Database</h3>
-              </div>
-            </Card>
+            <Link to={"/courses"}>
+              <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <img src={img5} alt="" style={{ width: "40%" }} />
+                  <h3>Database</h3>
+                </div>
+              </Card>
+            </Link>
           </Col>
         </Row>
 
@@ -173,68 +176,76 @@ const ContentClient = () => {
           style={{ justifyContent: "center", marginBottom: 24 }}
         >
           <Col className="gutter-row" span={5}>
-            <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-around",
-                  alignItems: "center",
-                }}
-              >
-                <img src={img6} alt="" style={{ width: "40%" }} />
-                <h3>DevOps</h3>
-              </div>
-            </Card>
+            <Link to={"/courses"}>
+              <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <img src={img6} alt="" style={{ width: "40%" }} />
+                  <h3>DevOps</h3>
+                </div>
+              </Card>
+            </Link>
           </Col>
           <Col className="gutter-row" span={5}>
-            <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <img src={img9} alt="" style={{ width: "40%" }} />
-                <h3>Front-end</h3>
-              </div>
-            </Card>
+            <Link to={"/courses"}>
+              <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <img src={img9} alt="" style={{ width: "40%" }} />
+                  <h3>Front-end</h3>
+                </div>
+              </Card>
+            </Link>
           </Col>
           <Col className="gutter-row" span={5}>
-            <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <img
-                  src={img7}
-                  alt=""
-                  style={{ width: "40%", marginRight: 4 }}
-                />
-                <h3>Excel & PowerPoint</h3>
-              </div>
-            </Card>
+            <Link to={"/courses"}>
+              <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src={img7}
+                    alt=""
+                    style={{ width: "40%", marginRight: 4 }}
+                  />
+                  <h3>Excel & PowerPoint</h3>
+                </div>
+              </Card>
+            </Link>
           </Col>
           <Col className="gutter-row" span={5}>
-            <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <img
-                  src={img8}
-                  alt=""
-                  style={{ width: "40%", marginRight: 6 }}
-                />
-                <h3>ENGLISH COURSE</h3>
-              </div>
-            </Card>
+            <Link to={"/courses"}>
+              <Card style={{ padding: "0px 0px", backgroundColor: "#f5f3fe" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src={img8}
+                    alt=""
+                    style={{ width: "40%", marginRight: 6 }}
+                  />
+                  <h3>ENGLISH COURSE</h3>
+                </div>
+              </Card>
+            </Link>
           </Col>
         </Row>
       </section>
@@ -262,45 +273,47 @@ const ContentClient = () => {
               style={{ marginBottom: 28 }}
               key={item.id}
             >
-              <Card
-                cover={
-                  <div style={{ position: "relative" }}>
-                    <img
-                      alt="example"
-                      src={`http://localhost:8080/storage/thumnail/${item.thumnail}`}
-                      style={{
-                        width: "100%",
-                        height: 160,
-                        objectFit: "cover",
-                        display: "block",
-                        borderRadius: "8px 8px 0 0",
-                      }}
-                    />
-                    <div className="circle-icon">
-                      <FlagOutlined style={{ fontSize: 16, color: "#fff" }} />
-                    </div>
-                  </div>
-                }
-                style={{
-                  minHeight: 320,
-                  boxShadow: "0 4px 15px 4px rgba(39,57,101,.1)",
-                }}
-              >
-                <Meta
-                  title={<div className="card-meta-title">{item.name}</div>}
-                  description={
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <Avatar
-                        src="https://api.dicebear.com/7.x/miniavs/svg?seed=8"
-                        style={{ marginRight: 8 }}
+              <Link to={`/courses/${item.id}`}>
+                <Card
+                  cover={
+                    <div style={{ position: "relative" }}>
+                      <img
+                        alt="example"
+                        src={`http://localhost:8080/storage/thumnail/${item.thumnail}`}
+                        style={{
+                          width: "100%",
+                          height: 160,
+                          objectFit: "cover",
+                          display: "block",
+                          borderRadius: "8px 8px 0 0",
+                        }}
                       />
-                      <span>
-                        {item.categories.map((item) => item.name).join(" , ")}
-                      </span>
+                      <div className="circle-icon">
+                        <FlagOutlined style={{ fontSize: 16, color: "#fff" }} />
+                      </div>
                     </div>
                   }
-                />
-              </Card>
+                  style={{
+                    minHeight: 320,
+                    boxShadow: "0 4px 15px 4px rgba(39,57,101,.1)",
+                  }}
+                >
+                  <Meta
+                    title={<div className="card-meta-title">{item.name}</div>}
+                    description={
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <Avatar
+                          src="https://api.dicebear.com/7.x/miniavs/svg?seed=8"
+                          style={{ marginRight: 8 }}
+                        />
+                        <span>
+                          {item.categories.map((item) => item.name).join(" , ")}
+                        </span>
+                      </div>
+                    }
+                  />
+                </Card>
+              </Link>
             </Col>
           ))}
         </Row>

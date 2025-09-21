@@ -85,6 +85,17 @@ export const callGetAssignmentByUser = (query) => {
     params: query,
   });
 };
+
+// --- module enroll
+export const callCreateEnroll = (value) => {
+  return instance.post("/api/v1/enrollments", value);
+};
+export const callGetEnrollByUser = (id) => {
+  return instance.get(`/api/v1/enrollments/${id}`);
+};
+export const callDeleteEnroll = (id) => {
+  return instance.get(`/api/v1/enrollments/${id}`);
+};
 // ----- upload file
 export const callUploadFile = (value) => {
   return instance.post("/api/v1/upload", value, {
