@@ -125,10 +125,15 @@
   font-weight: 400;
 }
 
+
+
+
+
 .ant-card .ant-card-meta-description {
   padding: 6px 0px;
   font-family: "Poppins", Sans-serif;
   margin-bottom: 10px;
+  min-height: 56px;
 }
 
 .circle-icon {

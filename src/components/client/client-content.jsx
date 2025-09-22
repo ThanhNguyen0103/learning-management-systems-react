@@ -29,7 +29,7 @@ const ContentClient = () => {
   }, []);
 
   return (
-    <Content style={{ padding: "0 48px", backgroundColor: "#fff" }}>
+    <Content style={{ padding: "0 0", backgroundColor: "#fff" }}>
       <Carousel arrows>
         <div>
           <div
@@ -38,7 +38,7 @@ const ContentClient = () => {
               alignItems: "center",
               justifyContent: "space-between",
               padding: "40px 80px",
-              background: "#fff",
+              background: "#f5f5f5",
               height: "360px",
             }}
           >
@@ -266,7 +266,7 @@ const ContentClient = () => {
           gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
           style={{ justifyContent: "center", marginBottom: 24 }}
         >
-          {course?.map((item) => (
+          {course?.slice(0, 8).map((item) => (
             <Col
               className="gutter-row"
               span={5}

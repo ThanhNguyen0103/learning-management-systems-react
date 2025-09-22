@@ -1,17 +1,16 @@
 import {
   AntCloudOutlined,
-  DownOutlined,
   TwitterOutlined,
   UserOutlined,
   WhatsAppOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, ConfigProvider, Dropdown, Menu, Space } from "antd";
 import { Header } from "antd/es/layout/layout";
-import { Link, matchPath, useLocation, useNavigate } from "react-router";
+import { Link, matchPath, useLocation } from "react-router";
 import reactLogo from "../../assets/react.svg";
 import { useAuth } from "../auth";
 const HeaderClient = () => {
-  const { user } = useAuth();
+  const { user, handleLogout } = useAuth();
   const location = useLocation();
   const items = [
     {
@@ -63,6 +62,14 @@ const HeaderClient = () => {
       label: (
         <Link to={"/admin"} style={{ color: "black" }}>
           Quản lí khóa học
+        </Link>
+      ),
+    },
+    {
+      key: "4",
+      label: (
+        <Link to={"/login"} style={{ color: "black" }} onClick={handleLogout}>
+          Đăng xuất
         </Link>
       ),
     },

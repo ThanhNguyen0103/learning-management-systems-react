@@ -150,6 +150,9 @@ export const callLogin = (value) => {
 export const callGetAccount = () => {
   return instance.get("/api/v1/auth/account");
 };
+export const callLogout = () => {
+  return instance.get("/api/v1/auth/logout");
+};
 // export const callRefreshToken = () => {
 //   return instance.get("/api/v1/auth/refresh");
 // };

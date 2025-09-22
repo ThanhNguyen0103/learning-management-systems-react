@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { callGetAccount, callLogin } from "../service/service-api";
+import { callGetAccount, callLogin, callLogout } from "../service/service-api";
 import { message } from "antd";
 import { createContext, use, useContext, useEffect, useState } from "react";
 const AuthContext = createContext(null);
@@ -27,6 +27,10 @@ const AuthProvider = ({ children }) => {
       message.error("Đăng nhập không thành công");
     }
   };
+  const handleLogout = async () => {
+    localStorage.removeItem("accessToken");
+    await callLogout();
+  };
 
   const handleGetAcount = async () => {
     const token = localStorage.getItem("accessToken");
@@ -48,7 +52,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, handleLogin, isAuthenticated, permissions }}
+      value={{ user, handleLogin, isAuthenticated, permissions, handleLogout }}
     >
       {!loading && children}
     </AuthContext.Provider>

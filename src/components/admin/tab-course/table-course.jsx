@@ -32,7 +32,7 @@ import { useAuth } from "../../auth";
 
 const CourseTable = ({ onChangeSelectedId }) => {
   const { user, permissions } = useAuth();
-  const { handleOpenModal, instructors, categories } = useOutletContext();
+  const { handleOpenModal, categories } = useOutletContext();
   const actionRef = useRef();
   const [form] = Form.useForm();
   const [typeSubmit, setTypeSubmit] = useState("");
@@ -253,7 +253,7 @@ const CourseTable = ({ onChangeSelectedId }) => {
                   .join("") // &
               : undefined,
           };
-          // const res = await callGetCourse(query);
+
           const res = await handleGetCourse(query);
 
           return {
@@ -300,7 +300,7 @@ const CourseTable = ({ onChangeSelectedId }) => {
         toolBarRender={() => [
           permissions.some(
             (item) =>
-              item.method?.toUpperCase() === "POST" && // quyền create
+              item.method?.toUpperCase() === "POST" &&
               item.module?.toUpperCase() === "COURSES"
           ) && (
             <Button
@@ -406,11 +406,7 @@ const CourseTable = ({ onChangeSelectedId }) => {
                   optionFilterProp="children"
                   disabled={typeSubmit === "update"}
                 >
-                  {instructors?.map((i) => (
-                    <Select.Option key={i.id} value={i.id}>
-                      {i.name}
-                    </Select.Option>
-                  ))}
+                  <Select.Option value={user?.id}>{user?.name}</Select.Option>
                 </Select>
               </Form.Item>
             </Col>

@@ -40,6 +40,7 @@ const CoursesPage = () => {
   const [filters, setFilters] = useState({
     categories: [],
     tag: [],
+    keyword: "",
   });
   useEffect(() => {
     fetchAllCourse();
@@ -70,6 +71,7 @@ const CoursesPage = () => {
     const query = {
       categories: filters?.categories?.map((item) => item).join(","),
       tag: filters?.tag?.map((item) => item).join(","),
+      keyword: filters?.keyword,
       page,
       size,
     };
@@ -90,6 +92,14 @@ const CoursesPage = () => {
       setLoading(false);
     }
   };
+  const handleResetFilters = () => {
+    form.resetFields();
+    setFilters({
+      categories: [],
+      tag: [],
+      keyword: "",
+    });
+  };
 
   const handleFilterChange = (change) => {
     setFilters((prev) => ({ ...prev, ...change }));
@@ -98,17 +108,26 @@ const CoursesPage = () => {
     const query = {
       categories: filters?.categories?.map((item) => item).join(","),
       tag: filters?.tag?.map((item) => item).join(","),
-      page: pagination.current,
+      keyword: filters?.keyword,
+      page: 1,
       size: pagination.pageSize,
     };
 
-    await callGetCourse(query);
+    const res = await callGetCourse(query);
+    if (res.data) {
+      setCourses(res.data.result);
+      setPagination({
+        current: res.data.meta.currentPage,
+        pageSize: res.data.meta.pageSize,
+        total: res.data.meta.total,
+      });
+    }
   };
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   return (
-    <div style={{ padding: "0 48px" }}>
+    <div style={{ padding: "0 56px" }}>
       <Breadcrumb
         style={{ margin: "16px 0" }}
         items={[{ title: "Home" }, { title: "List" }, { title: "App" }]}
@@ -130,7 +149,17 @@ const CoursesPage = () => {
             <div style={{ marginBottom: 24 }}>
               <Input
                 placeholder="Search ..."
-                suffix={<SearchOutlined style={{ color: "#999" }} />}
+                suffix={
+                  <SearchOutlined
+                    style={{ color: "#999" }}
+                    onClick={(e) => {
+                      onFinish();
+                    }}
+                  />
+                }
+                onChange={(e) =>
+                  setFilters((prev) => ({ ...prev, keyword: e.target.value }))
+                }
                 onPressEnter
                 allowClear
                 style={{
@@ -147,8 +176,8 @@ const CoursesPage = () => {
                   handleFilterChange({ categories: value });
                 }}
                 options={[
-                  { label: "Back-end", value: "backend" },
-                  { label: "Front-end", value: "frontend" },
+                  { label: "Back-end", value: "Back-end" },
+                  { label: "Front-end", value: "fron-tend" },
                   {
                     label: "Database (SQL, NoSQL)",
                     value: "Database",
@@ -187,7 +216,7 @@ const CoursesPage = () => {
               >
                 Lọc
               </Button>
-              <Button htmlType="button">Clear All Filters</Button>
+              <Button onClick={handleResetFilters}>Clear All Filters</Button>
             </Form.Item>
           </Form>
         </Sider>
@@ -200,7 +229,11 @@ const CoursesPage = () => {
               loading={loading}
               grid={{
                 gutter: 24,
-                column: 3,
+                xs: 1,
+                sm: 2,
+                md: 3,
+                lg: 3,
+                xl: 3,
               }}
               itemLayout="vertical"
               size="large"
@@ -217,7 +250,7 @@ const CoursesPage = () => {
                   <Card
                     actions={[
                       enrolledIds.includes(item.id) ? (
-                        <Button>Learning</Button>
+                        <Button>Start Learning</Button>
                       ) : (
                         <Button
                           onClick={() => {
