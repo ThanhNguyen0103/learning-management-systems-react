@@ -53,4 +53,4 @@ Backend sử dụng **Spring Boot**, Frontend sử dụng **ReactJS**.
 
 ### Trang quản trị – Cập nhật quyền (Permissions)
 
-![update permissions](public/hinh4.png)
+![update permissions](public/hinh4.PNG)
