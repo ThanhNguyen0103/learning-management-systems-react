@@ -298,7 +298,7 @@ const CourseTable = ({ onChangeSelectedId }) => {
         dateFormatter="string"
         headerTitle="Danh sách khóa học"
         toolBarRender={() => [
-          permissions.some(
+          permissions?.some(
             (item) =>
               item.method?.toUpperCase() === "POST" &&
               item.module?.toUpperCase() === "COURSES"

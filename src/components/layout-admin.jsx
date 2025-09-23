@@ -18,7 +18,7 @@ import "../style/page-admin.css";
 import { callGetCourseCategory } from "../service/service-api";
 import { useAuth } from "./auth";
 const LayoutAdmin = () => {
-  const { user } = useAuth();
+  const { user, handleLogout } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
   const [categories, setCategories] = useState();
   const location = useLocation();
@@ -36,6 +36,14 @@ const LayoutAdmin = () => {
     {
       key: "2",
       label: <Link to={"/"}>Quản lí tài khoản</Link>,
+    },
+    {
+      key: "3",
+      label: (
+        <Link to={"/login"} style={{ color: "black" }} onClick={handleLogout}>
+          Đăng xuất
+        </Link>
+      ),
     },
   ];
   const itemMenu = [
